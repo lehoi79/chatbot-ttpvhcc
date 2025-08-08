@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Trung tâm phục vụ Hành chính công Phường Tây Nha Trang</title>
+
+<!-- Roboto -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --red:#c52222;   /* header red */
+  --accent:#0b63d6;
+  --bg:#f4f8fb;
+  --card:#fff;
+  --muted:#6b7280;
+  --maxw:1200px;
+  --shadow: 0 12px 36px rgba(10,30,80,0.06);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Roboto,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:#0b1720}
+a{color:inherit}
+header.app-header{
+  position:sticky;top:0;left:0;right:0;z-index:1200;
+  display:flex;align-items:center;padding:14px 20px;background:var(--red);color:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.12);
+}
+/* Logo at left, 20px from page edge */
+header .logo-wrap{margin-left:20px;flex:0 0 auto;margin-right:12px}
+.logo{height:56px;width:56px;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.logo img{width:100%;height:100%;object-fit:contain;display:block}
+
+/* Title: two lines */
+.header-title{display:flex;flex-direction:column;line-height:1}
+.header-title .line1{font-weight:700;font-size:18px;letter-spacing:0.2px}
+.header-title .line2{font-weight:500;font-size:14px;color:rgba(255,255,255,0.92);margin-top:4px}
+
+/* keep center visually */
+.header-spacer{flex:1}
+
+/* container */
+.container{max-width:var(--maxw);margin:18px auto;padding:18px}
+
+/* nav cards on home */
+.home-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.card{
+  background:var(--card);border-radius:12px;padding:18px;box-shadow:var(--shadow);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(10,30,80,0.09)}
+.card .emoji{font-size:28px}
+.card h3{margin:8px 0 0 0}
+.card p{margin:8px 0 0;color:var(--muted)}
+
+/* sections (SPA) */
+.section{display:none;opacity:0;transform:translateY(8px);transition:all .36s cubic-bezier(.2,.9,.2,1);min-height:60vh}
+.section.active{display:block;opacity:1;transform:translateY(0)}
+
+/* page header inside sections */
+.page-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.back-btn{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:8px 10px;border-radius:8px;color:var(--accent);cursor:pointer}
+
+/* hotline */
+.hotline-card{background:linear-gradient(180deg,#fff,#fbfdff);padding:18px;border-radius:10px;box-shadow:var(--shadow)}
+.hotline-number{font-size:32px;font-weight:800;color:#b91c1c}
+.hotline-meta{color:var(--muted);margin-top:6px}
+
+/* survey */
+.survey-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(max-width:760px){ .survey-grid{grid-template-columns:1fr} }
+.criterion{border:1px solid #eef4fb;padding:10px;border-radius:8px;background:#fff}
+.radio-row{display:flex;gap:8px;align-items:center}
+
+/* procedures (table + controls) */
+.table-card{background:var(--card);padding:14px;border-radius:10px;box-shadow:var(--shadow)}
+.table-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.table-controls .search{flex:1;min-width:160px;padding:8px;border-radius:8px;border:1px solid #e6eef7}
+.table-controls select{padding:8px;border-radius:8px;border:1px solid #e6eef7}
+.table-responsive{overflow:auto;border-radius:8px;border:1px solid #f0f4fb}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:10px;border-bottom:1px solid #f3f6fb;text-align:left}
+.table th{background:linear-gradient(90deg,var(--accent),#0680e8);color:#fff}
+
+/* pagination */
+.pager{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:10px}
+.pager button{padding:6px 10px;border-radius:6px;border:1px solid rgba(0,0,0,0.06);background:#fff;cursor:pointer}
+
+/* chat toggle + panel */
+.chat-toggle{position:fixed;right:18px;bottom:18px;z-index:1600}
+.chat-toggle button{width:64px;height:64px;border-radius:50%;border:none;background:linear-gradient(180deg,var(--accent),#0a4fb0);color:#fff;font-size:26px;box-shadow:0 14px 36px rgba(10,57,130,0.26);cursor:pointer}
+.chat-panel{position:fixed;right:18px;bottom:96px;width:360px;max-height:72vh;background:var(--card);border-radius:12px;box-shadow:0 18px 60px rgba(9,30,66,0.12);overflow:hidden;display:flex;flex-direction:column;z-index:1600;transition:all .28s ease}
+.chat-panel.hidden{opacity:0;visibility:hidden;transform:translateY(8px) scale(.98)}
+.chat-header{display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid #eef2f7;background:linear-gradient(90deg,#eef7ff,#fff)}
+.ch-avatar{width:44px;height:44px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center}
+.chat-body{padding:12px;overflow:auto;flex:1;background:linear-gradient(180deg,#fbfdff,#ffffff)}
+.msg{display:flex;gap:10px;margin-bottom:10px;align-items:flex-end}
+.msg.bot{justify-content:flex-start}
+.msg.user{justify-content:flex-end}
+.bubble{max-width:78%;padding:10px 12px;border-radius:12px;background:#eef8ff;color:#07285a}
+.bubble.user{background:#e6eefc;color:#042047}
+.chat-footer{display:flex;gap:8px;padding:10px;border-top:1px solid #eef6ff}
+.chat-footer input{flex:1;padding:10px;border-radius:8px;border:1px solid #e6eef7}
+
+/* admin modal for Q&A */
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:94%;max-width:720px;background:#fff;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,0.22);padding:12px;z-index:1800;display:none}
+.modal .list{max-height:320px;overflow:auto;margin-top:10px}
+
+/* responsive */
+@media(max-width:480px){
+  header .header-title .line1{font-size:16px}
+  .chat-panel{width:92%;right:4%}
+  .table-controls{flex-direction:column;align-items:stretch}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header" role="banner">
+  <div class="logo-wrap" aria-hidden="false">
+    <div class="logo">
+      <!-- Replace logo.png with your logo file (no frame). Positioned 20px from left by .logo-wrap margin -->
+      <img src="d:\TÂY NHA TRANG\Hồi\CHATBOT HƯỚNG DẪN KHAI THÔNG TIN\logo-hcc.png" alt="Logo Trung tâm" onerror="this.style.display='none'">
+    </div>
+  </div>
+
+  <div class="header-title" role="heading" aria-level="1">
+    <div class="line1">TRUNG TÂM PHỤC VỤ HÀNH CHÍNH CÔNG PHƯỜNG TÂY NHA TRANG</div>
+    <div class="line2">Hành chính phục vụ</div>
+  </div>
+
+  <div class="header-spacer" aria-hidden="true"></div>
+</header>
+
+<!-- APP CONTAINER (SPA) -->
+<main class="container" id="app">
+
+  <!-- HOME -->
+  <section id="home" class="section active" aria-labelledby="home-title">
+    <h2 id="home-title">Chọn nội dung</h2>
+    <p class="small" style="margin-top:6px;color:var(--muted)">Chọn 1 nội dung để vào trang riêng. Chatbot góc dưới phải để hỏi trợ lý ngay.</p>
+
+    <div style="margin-top:18px" class="home-cards" role="list">
+      <div class="card" role="listitem" onclick="navigate('hotline')">
+        <div class="emoji">📞</div>
+        <h3>Đường dây nóng</h3>
+        <p>Thông tin liên hệ, hướng dẫn liên hệ khẩn cấp và hỗ trợ thủ tục.</p>
+      </div>
+
+      <div class="card" role="listitem" onclick="navigate('survey')">
+        <div class="emoji">📝</div>
+        <h3>Phiếu đánh giá</h3>
+        <p>16 Quầy.</p>
+      </div>
+
+      <div class="card" role="listitem" onclick="navigate('procedures')">
+        <div class="emoji">📁</div>
+        <h3>Hồ sơ mẫu</h3>
+        <p>Tra cứu thủ tục & biểu mẫu — lọc theo lĩnh vực và thủ tục.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOTLINE -->
+  <section id="hotline" class="section" aria-labelledby="hotline-title">
+    <div class="page-header">
+      <button class="back-btn" onclick="navigate('home')">← Trang chủ</button>
+      <h2 id="hotline-title">THÔNG TIN ĐƯỜNG DÂY NÓNG TIẾP NHẬN, XỬ LÝ PHẢN ÁNH KIẾN NGHỊ CỦA TỔ CHỨC, CÁ NHÂN VỀ QUY ĐỊNH HÀNH CHÍNH</h2>
+    </div>
+
+    <div class="hotline-card">
+      
+      <div class="hotline-meta">Nếu gặp vướng mắc, khó khăn, đề nghị cá nhân, tổ chức, tổ chức, doanh nghiệp gửi phản ánh, kiến nghị theo đường dây nóng như sau:</div>
+        <div class="hotline-meta">1. Trung tâm Phục vụ hành chính công phường Tây Nha Trang
+</div>
+<div class="hotline-number" id="hotline-number">0258.3.892.377</div>
+      <div class="hotline-meta">Địa chỉ: 480 Lương Định Của, Phường Tây Nha Trang, TP. Nha Trang, Khánh Hòa</div>
+      <div class="hotline-meta">Giờ làm việc: 7:00–11:30 và 13:30–17:30, Thứ Hai–Thứ Sáu và buổi sáng Thư Bảy hàng tuần</div>
+<div class="hotline-meta">• Cán bộ tiếp nhận phản ánh kiến nghị: …..Thảo 
+</div>
+
+<div class="hotline-meta">• Điện thoại:
+</div>
+<div class="hotline-meta">• Chủ tịch UBND phường: Ông Nguyễn Đình Anh Minh
+</div>
+<div class="hotline-meta">• Điện thoại:
+</div>
+<div class="hotline-meta">• Email:
+</div>
+<div class="hotline-meta">• Lãnh đạo Trung tâm Phục vụ hành chính công: Ông Nguyễn Chí Danh, Phó Chủ tịch UBND - Giám đốc Trung tâm Phục vụ hành chính công
+</div>
+<div class="hotline-meta">• Điện thoại:
+</div>
+<div class="hotline-meta">• Email:
+</div>
+<div class="hotline-meta">• Ông Nguyễn Duy Thức, Phó Giám đốc Trung tâm Phục vụ hành chính công
+</div>
+<div class="hotline-meta">• Điện thoại:
+</div>
+<div class="hotline-meta">• Email:
+</div>
+	<div class="hotline-meta">2. Phòng Cải cách hành chính sở Nội vụ, tỉnh Khánh Hòa
+</div>
+<div class="hotline-meta">• Địa chỉ: 05 Pasreur, phường Nha Trang, tỉnh Khánh Hoà
+</div>
+<div class="hotline-meta">• Điện thoại: 0258.3810.440
+</div>
+<div class="hotline-meta">• Email: cchc.snv@khanhshoa.gov.vn hoặc caicachhanhchinhkh@gmail.com
+</div>
+	<div class="hotline-meta">3. Chuyên mục “Tiếp nhận, trả lời phản ánh kiến nghị” về giải quyết thủ tục tại Bộ phận Một cửa và chuyên mục “Góp ý và hỏi đáp: trên Cổng Thông tin điện tử cỉa cách hành chính tỉnh Khánh Hòa, địa chỉ truy cập: http://cchc.snv@khanhhoa.gov.vn.
+</div>
+	<div class="hotline-meta">• Gửi qua Hệ thống tiếp nhận và trả lời phản ánh, kiến nghị của người dân tại địa chỉ: https://doanhnghiep.chinhphu.vn hoặc https://nguoidan.chinhphu.vn 
+</div>
+	<div class="hotline-meta">• Gửi đến cơ quan: Văn phòng UBND tỉnh Khánh Hòa, số 46 Trần Phú, phường Nha Trang, tỉnh Khánh Hòa.
+</div>
+	<div class="hotline-meta">• Số điện thoại chuyên dùng: 0258.3822.465
+</div>
+	<div class="hotline-meta">• Địa chỉ thư điện tử: pkstthc.vpub@khanhhoa.gov.vn
+</div>
+
+    </div>
+
+    <div style="margin-top:12px" class="card table-card">
+      <div class="small">Tìm nhanh </div> <!-- //(ưu tiên nguồn chính thức khi cấu hình API) -->
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <input id="hotline-q" class="search" placeholder="Ví dụ: Số điện thoại UBND tỉnh Khánh Hòa">
+        <button class="back-btn" onclick="hotlineSearch()">Tìm</button>
+        <button class="back-btn" onclick="document.getElementById('hotline-result').innerText='';">Xóa</button>
+      </div>
+      <div id="hotline-result" style="margin-top:10px;padding:10px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff;min-height:50px;color:#08306b">Kết quả hiển thị tại đây...</div>
+    </div>
+  </section>
+
+  <!-- SURVEY -->
+  <section id="survey" class="section" aria-labelledby="survey-title">
+    <div class="page-header">
+      <button class="back-btn" onclick="navigate('home')">← Trang chủ</button>
+      <h2 id="survey-title">Phiếu đánh giá - 16 Quầy</h2>
+    </div>
+
+    <div class="card">
+      <p class="small">Chọn điểm cho từng Mức độ (1 = Không hài lòng, 2 = Hài lòng, 3 = Rất hài lòng). Dữ liệu lưu local trên trình duyệt.</p>
+      <div id="survey-form" style="margin-top:10px"></div>
+
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input id="sv-name" class="search" placeholder="Họ tên (không bắt buộc)">
+        <input id="sv-phone" class="search" placeholder="SĐT (không bắt buộc)">
+        <input id="sv-date" class="search" type="date" title="Ngày đánh giá">
+        <button class="back-btn" id="save-survey">Lưu</button>
+        <button class="back-btn" id="view-surveys">Xem danh sách</button>
+      </div>
+
+      <div id="surveys-list" style="margin-top:12px;display:none"></div>
+    </div>
+  </section>
+
+  <!-- PROCEDURES -->
+  <section id="procedures" class="section" aria-labelledby="procedures-title">
+    <div class="page-header">
+      <button class="back-btn" onclick="navigate('home')">← Trang chủ</button>
+      <h2 id="procedures-title">Hồ sơ mẫu - Tra cứu</h2>
+    </div>
+
+    <div class="table-card">
+      <div class="table-controls">
+        <input id="filter-field" class="search" placeholder="Tìm lĩnh vực (gõ sẽ lọc)" title="Lĩnh vực">
+        <input id="filter-key" class="search" placeholder="Tìm thủ tục (gõ sẽ lọc)" title="Tên thủ tục">
+        <label style="white-space:nowrap">Hiển thị:
+          <select id="rowsPerPage">
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+          </select> / trang
+        </label>
+        <div style="margin-left:auto" class="small"></div> <!-- //Nguồn ưu tiên: dichvucong.gov.vn (cấu hình API backend) -->
+      </div>
+
+      <div class="table-responsive">
+        <table class="table" id="procedures-table" aria-describedby="procedures-title">
+          <thead>
+            <tr><th>STT</th><th>Tên thủ tục</th><th>Lĩnh vực</th><th>Biểu mẫu</th></tr>
+          </thead>
+          <tbody id="procedures-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="pager" style="margin-top:10px">
+        <div class="small" id="pager-info"></div>
+        <div style="flex:1"></div>
+        <button class="pager-prev" onclick="prevPage()">⟨</button>
+        <div id="pager-pages" style="display:flex;gap:6px;align-items:center"></div>
+        <button class="pager-next" onclick="nextPage()">⟩</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Chatbot toggle -->
+<div class="chat-toggle" aria-hidden="false">
+  <button id="chatToggle" title="Mở trợ lý ảo">💬</button>
+</div>
+
+<!-- Chat panel -->
+<div id="chatPanel" class="chat-panel hidden" aria-hidden="true" role="dialog" aria-label="Trợ lý ảo">
+  <div class="chat-header">
+    <div class="d:\TÂY NHA TRANG\Hồi\CHATBOT HƯỚNG DẪN KHAI THÔNG TIN\robot.png">🤖</div>
+    <div style="flex:1">
+      <div style="font-weight:700;color:var(--accent)">Trợ lý ảo Trung tâm PVHCC phường</div>
+      <div class="small">Hỏi về thủ tục, biểu mẫu, giờ làm việc</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="back-btn" id="openAdmin">Q&A</button>
+      <button class="back-btn" id="closeChat">Đóng</button>
+    </div>
+  </div>
+
+  <div class="chat-body" id="chatBody"></div>
+
+  <div class="chat-footer">
+    <input id="chatInput" placeholder='Ví dụ: "Làm căn cước công dân ở đâu?"'>
+    <button id="chatSend" class="back-btn">Gửi</button>
+  </div>
+</div>
+
+<!-- Modal quản lý Q&A -->
+<div id="qaModal" class="modal" role="dialog" aria-label="Quản lý Q&A">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <strong>Thêm/Quản lý Q&A (lưu cục bộ)</strong>
+    <button class="back-btn" id="closeQa">Đóng</button>
+  </div>
+  <div style="margin-top:10px;display:flex;gap:8px">
+    <input id="qaQ" class="search" placeholder="Câu hỏi (từ khóa)">
+    <input id="qaA" class="search" placeholder="Trả lời (tiếng Việt)">
+    <button class="back-btn" id="addQaBtn">Thêm</button>
+  </div>
+  <div class="list" id="qaList"></div>
+</div>
+
+<script>
+/* =========================
+   SPA navigation + transitions
+   ========================= */
+const sections = ['home','hotline','survey','procedures'];
+function navigate(key){
+  if(!sections.includes(key)) key='home';
+  sections.forEach(s=>{
+    const el = document.getElementById(s);
+    if(s===key){ el.classList.add('active'); el.classList.add('fade'); }
+    else { el.classList.remove('active'); el.classList.remove('fade'); }
+  });
+  // update hash for back button support
+  history.pushState({page:key}, '', '#'+key);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+window.addEventListener('popstate', (e) => {
+  const p = (e.state && e.state.page) || location.hash.replace('#','') || 'home';
+  sections.forEach(s=>{ document.getElementById(s).classList.toggle('active', s===p); });
+});
+
+/* Init show depending on hash */
+document.addEventListener('DOMContentLoaded', () => {
+  const h = location.hash.replace('#','') || 'home';
+  navigate(h);
+  initSurvey();
+  initProcedures();
+  initChat();
+});
+
+/* =========================
+   SURVEY: build 16 criteria + save to localStorage
+   ========================= */
+const criteria = [
+  "Quầy số 1 - Lĩnh vực Đất đai Thẩm quyền Chi nhánh VPĐKĐĐ","Quầy số 2 - Thuế Đất Đai","Quầy số 3 - Lĩnh Vực đất đai Thẩm quyền UBND cấp xã","Quầy số 4 - Lĩnh vực Xây dựng Thẩm quyền UBND cấp xã",
+  "Quầy số 5 - Lĩnh vực Y tế, Giáo dục, Nội vụ/ Lĩnh vực công thương, các HS phi Địa giới","Quầy số 6 Lĩnh vực Bảo trợ xã hội, người có công","Quầy số 7 - Lĩnh vực Chứng thực","Quầy số 8 - Lĩnh vực Hộ tịch",
+  "Quầy số 9 - Lĩnh vực Đăng ký Kinh doanh","Quầy số 10 Văn thư","Quầy số 11","Quầy số 12",
+  "Quầy số 13","Quầy số 14","Quầy số 15","Quầy số 16"
+];
+const SURV_KEY = 'sumhop_surveys_v3';
+function initSurvey(){
+  const wrap = document.getElementById('survey-form');
+  wrap.innerHTML = '<div class="survey-grid">' + criteria.map((c,i)=>`
+    <div class="criterion"><h4>${i+1}. ${c}</h4>
+      <div class="radio-row">${[1,2,3].map(v=>`<label class="small"><input type="radio" name="crit${i}" value="${v}"> ${v}</label>`).join('')}</div>
+    </div>`).join('') + '</div><div style="margin-top:8px"><textarea id="sv-comment" rows="3" style="width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef7" placeholder="Ý kiến (không bắt buộc)"></textarea></div>';
+  if(!document.getElementById('sv-date').value) document.getElementById('sv-date').value = new Date().toISOString().slice(0,10);
+
+  document.getElementById('save-survey').addEventListener('click', ()=>{
+    const s = collectSurvey();
+    const v = validateSurvey(s);
+    if(!v.ok){ alert(v.msg); return; }
+    const arr = loadSurveys(); arr.push(s); localStorage.setItem(SURV_KEY, JSON.stringify(arr));
+    alert('Đã lưu đánh giá. Cảm ơn bạn!');
+    // reset
+    for(let i=0;i<criteria.length;i++){ const rs = document.getElementsByName('crit'+i); rs.forEach(r=>r.checked=false); }
+    document.getElementById('sv-comment').value=''; document.getElementById('sv-name').value=''; document.getElementById('sv-phone').value=''; document.getElementById('sv-date').value = new Date().toISOString().slice(0,10);
+  });
+  document.getElementById('view-surveys').addEventListener('click', renderSurveyList);
+}
+function collectSurvey(){
+  const values=[];
+  for(let i=0;i<criteria.length;i++){
+    const rs = document.getElementsByName('crit'+i);
+    let val=null;
+    for(const r of rs) if(r.checked){ val = parseInt(r.value); break; }
+    values.push(val);
+  }
+  return { id:'s'+Date.now(), date:document.getElementById('sv-date').value || new Date().toISOString().slice(0,10), ts:new Date().toISOString(), name:document.getElementById('sv-name').value.trim(), phone:document.getElementById('sv-phone').value.trim(), comment:document.getElementById('sv-comment').value.trim(), scores:values };
+}
+function validateSurvey(s){ if(s.scores.every(v=>v===null)) return {ok:false,msg:'Vui lòng chọn ít nhất một tiêu chí.'}; return {ok:true}; }
+function loadSurveys(){ const s=localStorage.getItem(SURV_KEY); return s?JSON.parse(s):[]; }
+function renderSurveyList(){
+  const arr = loadSurveys().slice().reverse();
+  const wrap = document.getElementById('surveys-list');
+  if(!arr.length){ wrap.style.display='block'; wrap.innerHTML = '<div class="small">Chưa có đánh giá nào.</div>'; return; }
+  wrap.style.display='block';
+  wrap.innerHTML = `<div style="overflow:auto;max-height:360px"><table class="table"><thead><tr><th>Ngày</th><th>Họ tên</th><th>SĐT</th><th>Trung bình</th></tr></thead><tbody>${arr.map(s=>{ const nums = s.scores.filter(v=>v!==null); const avg = nums.length? (nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(2):'N/A'; return `<tr><td>${s.date}</td><td>${s.name||''}</td><td>${s.phone||''}</td><td>${avg}</td></tr>` }).join('')}</tbody></table></div><div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end"><button class="back-btn" onclick="exportSurveys()">Xuất</button><button class="back-btn" onclick="document.getElementById('surveys-list').style.display='none'">Đóng</button></div>`;
+}
+
+/* simple CSV export */
+function exportSurveys(){
+  const arr = loadSurveys();
+  if(!arr.length){ alert('Không có dữ liệu.'); return; }
+  let csv = 'Ngày,Thời gian,Họ tên,SĐT,Ý kiến,' + criteria.map((c,i)=>`"C${i+1} - ${c}"`).join(',') + ',Trung bình\\n';
+  arr.forEach(s=>{
+    const nums = s.scores.map(v=>v===null?'':v);
+    const numsForAvg = s.scores.filter(v=>v!==null);
+    const avg = numsForAvg.length? (numsForAvg.reduce((a,b)=>a+b,0)/numsForAvg.length).toFixed(2):'';
+    csv += `${s.date},${new Date(s.ts).toLocaleTimeString()},"${s.name||''}","${s.phone||''}","${s.comment||''}",${nums.join(',')},${avg}\\n`;
+  });
+  const blob = new Blob([csv], {type:'text/csv'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='surveys_export.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+
+/* =========================
+   PROCEDURES: data, live filter, rows per page, pagination
+   ========================= */
+let procedures = [
+ { "stt": 1, "name": "Thủ tục xác nhận thông tin hộ tịch", "field": "Hộ tịch (Bộ Tư pháp)", "form": "1" },
+  { "stt": 2, "name": "Liên thông thủ tục hành chính về đăng ký khai sinh, đăng ký thường trú, cấp thẻ bảo hiểm y tế cho trẻ em dưới 6 tuổi", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 3, "name": "Liên thông các thủ tục hành chính về đăng ký khai sinh, cấp Thẻ bảo hiểm y tế cho trẻ em dưới 6 tuổi", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 4, "name": "Thủ tục đăng ký khai sinh", "field": "Hộ tịch (Bộ Tư pháp)", "form": "https://drive.google.com/file/d/1Ay7SgKk3gH5pdtqoaX59lW08_G4MPGLR/view?usp=sharing" },
+  { "stt": 5, "name": "Thủ tục đăng ký kết hôn", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 6, "name": "Thủ tục đăng ký nhận cha, mẹ, con", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 7, "name": "Thủ tục đăng ký khai sinh kết hợp đăng ký nhận cha, mẹ, con", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 8, "name": "Thủ tục đăng ký khai tử", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 9, "name": "Thủ tục đăng ký khai sinh lưu động", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 10, "name": "Thủ tục đăng ký kết hôn lưu động", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 11, "name": "Thủ tục đăng ký khai tử lưu động", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 12, "name": "Thủ tục đăng ký giám hộ", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 13, "name": "Thủ tục đăng ký chấm dứt giám hộ", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 14, "name": "Thủ tục thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 15, "name": "Thủ tục cấp Giấy xác nhận tình trạng hôn nhân", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 16, "name": "Thủ tục đăng ký lại khai sinh", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 17, "name": "Thủ tục đăng ký khai sinh cho người đã có hồ sơ, giấy tờ cá nhân", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 18, "name": "Thủ tục đăng ký lại kết hôn", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 19, "name": "Đăng ký lại khai tử", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 20, "name": "Cấp bản sao Trích lục hộ tịch, bản sao Giấy khai sinh", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 21, "name": "Thủ tục đăng ký khai sinh có yếu tố nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 22, "name": "Thủ tục đăng ký kết hôn có yếu tố nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 23, "name": "Thủ tục đăng ký nhận cha, mẹ, con có yếu tố nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 24, "name": "Thủ tục đăng ký khai tử có yếu tố nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 25, "name": "Thủ tục đăng ký khai sinh kết hợp đăng ký nhận cha, mẹ, con có yếu tố nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 26, "name": "Thủ tục đăng ký giám hộ có yếu tố nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 27, "name": "Thủ tục đăng ký chấm dứt giám hộ có yếu tố nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 28, "name": "Thủ tục thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc có yếu tố nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 29, "name": "Thủ tục ghi vào Sổ hộ tịch việc kết hôn của công dân Việt Nam đã được giải quyết tại cơ quan có thẩm quyền của nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 30, "name": "Thủ tục ghi vào Sổ hộ tịch việc ly hôn, hủy việc kết hôn của công dân Việt Nam đã được giải quyết tại cơ quan có thẩm quyền của nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 31, "name": "Thủ tục ghi vào Sổ hộ tịch việc hộ tịch khác của công dân Việt Nam đã được giải quyết tại cơ quan có thẩm quyền của nước ngoài (khai sinh; giám hộ; nhận cha, mẹ, con; xác định cha, mẹ, con; nuôi con nuôi; khai tử; thay đổi hộ tịch)", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 32, "name": "Thủ tục đăng ký lại khai sinh có yếu tố nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 33, "name": "Thủ tục đăng ký khai sinh có yếu tố nước ngoài cho người đã có hồ sơ, giấy tờ cá nhân", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 34, "name": "Thủ tục đăng ký lại kết hôn có yếu tố nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 35, "name": "Thủ tục đăng ký lại khai tử có yếu tố nước ngoài", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 36, "name": "Đăng ký chấm dứt giám sát việc giám hộ", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 37, "name": "Đăng ký giám sát việc giám hộ", "field": "Hộ tịch (Bộ Tư pháp)", "form": "" },
+  { "stt": 38, "name": "Cung cấp thông tin, dữ liệu đất đai.", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 39, "name": "Đăng ký đất đai, tài sản gắn liền với đất, cấp Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất lần đầu đối với tổ chức đang sử dụng đất", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "https://drive.google.com/file/d/16sf2OJz4HE5glQiHL07N2xD0Wr-LCE7i/view?usp=sharing" },
+  { "stt": 40, "name": "Đính chính Giấy chứng nhận đã cấp lần đầu có sai sót", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 41, "name": "Hòa giải tranh chấp đất đai", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 42, "name": "Thu hồi Giấy chứng nhận đã cấp lần đầu không đúng quy định của pháp luật đất đai do người sử dụng đất, chủ sở hữu tài sản gắn liền với đất phát hiện và cấp lại Giấy chứng nhận sau khi thu hồi", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 43, "name": "Xác định lại diện tích đất ở của hộ gia đình, cá nhân đã được cấp Giấy chứng nhận trước ngày 01 tháng 7 năm 2004", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 44, "name": "Giao đất, cho thuê đất, chuyển mục đích sử dụng đất đối với trường hợp giao đất, cho thuê đất không đấu giá quyền sử dụng đất, không đấu thầu lựa chọn nhà đầu tư thực hiện dự án có sử dụng đất; trường hợp giao đất, cho thuê đất thông qua đấu thầu lựa chọn nhà đầu tư thực hiện dự án có sử dụng đất; giao đất và giao rừng; cho thuê đất và cho thuê rừng, gia hạn sử dụng đất khi hết thời hạn sử dụng đất", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 45, "name": "Giao đất ở có thu tiền sử dụng đất không thông qua đấu giá, không đấu thầu lựa chọn nhà đầu tư thực hiện dự án có sử dụng đất đối với cá nhân là cán bộ, công chức, viên chức, sĩ quan tại ngũ, quân nhân chuyên nghiệp, công chức quốc phòng, công nhân và viên chức quốc phòng, sĩ quan, hạ sĩ quan, công nhân công an, người làm công tác cơ yếu và người làm công tác khác trong tổ chức cơ yếu hưởng lương từ ngân sách nhà nước mà chưa được giao đất ở, nhà ở; giáo viên, nhân viên y tế đang công tác tại các xã biên giới, hải đảo thuộc vùng có điều kiện kinh tế - xã hội khó khăn, vùng có điều kiện kinh tế - xã hội đặc biệt khó khăn nhưng chưa có đất ở, nhà ở tại nơi công tác hoặc chưa được hưởng chính sách hỗ trợ về nhà ở theo quy định của pháp luật về nhà ở; cá nhân thường trú tại xã mà không có đất ở và chưa được Nhà nước giao đất ở hoặc chưa được hưởng chính sách hỗ trợ về nhà ở theo quy định của pháp luật về nhà ở", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 46, "name": "Giải quyết tranh chấp đất đai thuộc thẩm quyền của Chủ tịch Ủy ban nhân dân cấp xã", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 47, "name": "Chuyển hình thức giao đất, cho thuê đất.", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 48, "name": "Điều chỉnh quyết định giao đất, cho thuê đất, cho phép chuyển mục đích sử dụng đất do thay đổi căn cứ quyết định giao đất, cho thuê đất, cho phép chuyển mục đích sử dụng đất; điều chỉnh thời hạn sử dụng đất của dự án đầu tư.", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 49, "name": "Đăng ký đất đai, tài sản gắn liền với đất, cấp Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất lần đầu đối với hộ gia đình, cá nhân, cộng đồng dân cư, người gốc Việt Nam định cư ở nước ngoài", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "https://drive.google.com/file/d/16sf2OJz4HE5glQiHL07N2xD0Wr-LCE7i/view?usp=sharing" },
+  { "stt": 50, "name": "Tặng cho quyền sử dụng đất cho Nhà nước hoặc cộng đồng dân cư hoặc mở rộng đường giao thông đối với trường hợp thửa đất chưa được cấp Giấy chứng nhận", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 51, "name": "Sử dụng đất kết hợp đa mục đích, gia hạn phương án sử dụng đất kết hợp đa mục đích.", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 52, "name": "Điều chỉnh quyết định giao đất, cho thuê đất, cho phép chuyển mục đích sử dụng đất do sai sót về ranh giới, vị trí, diện tích, mục đích sử dụng giữa bản đồ quy hoạch, bản đồ địa chính, quyết định giao đất, cho thuê đất, cho phép chuyển mục đích sử dụng đất và số liệu bàn giao đất trên thực địa", "field": "Đất đai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 53, "name": "Ghi nợ tiền sử dụng đất của hộ gia đình, cá nhân trong trường hợp được bố trí tái định cư", "field": "Tài chính đất đai (Bộ Tài chính)", "form": "" },
+  { "stt": 54, "name": "Khấu trừ kinh phí bồi thường, hỗ trợ, tái định cư", "field": "Tài chính đất đai (Bộ Tài chính)", "form": "" },
+  { "stt": 55, "name": "Thanh toán, xóa nợ tiền sử dụng đất đối với hộ gia đình, cá nhân được ghi nợ", "field": "Tài chính đất đai (Bộ Tài chính)", "form": "" },
+  { "stt": 56, "name": "Tiếp nhận đối tượng bảo trợ xã hội có hoàn cảnh đặc biệt khó khăn vào cơ sở trợ giúp xã hội", "field": "Bảo trợ xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 57, "name": "Tiếp nhận đối tượng cần bảo vệ khẩn cấp vào cơ sở trợ giúp xã hội", "field": "Bảo trợ xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 58, "name": "Dừng trợ giúp xã hội tại cơ sở trợ giúp xã hội", "field": "Bảo trợ xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 59, "name": "Hỗ trợ chi phí mai táng cho đối tượng bảo trợ xã hội", "field": "Bảo trợ xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 60, "name": "Thực hiện, điều chỉnh, thôi hưởng trợ cấp xã hội hàng tháng, hỗ trợ kinh phí chăm sóc, nuôi dưỡng hàng tháng", "field": "Bảo trợ xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 61, "name": "Đăng ký hoạt động đối với cơ sở trợ giúp xã hội dưới 10 đối tượng có hoàn cảnh khó khăn", "field": "Bảo trợ xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 62, "name": "Xác định, xác định lại mức độ khuyết tật và cấp Giấy xác nhận khuyết tật", "field": "Bảo trợ xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 63, "name": "Đổi, cấp lại Giấy xác nhận khuyết tật", "field": "Bảo trợ xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 64, "name": "Thực hiện, điều chỉnh, thôi hưởng trợ cấp hưu trí xã hội", "field": "Bảo trợ xã hội (Bộ Y tế)", "form": "https://drive.google.com/file/d/10P0U_csNbctsOrEBrLpNprI-kGWqGW8c/view?usp=sharing" },
+  { "stt": 65, "name": "Hỗ trợ chi phí mai táng đối với đối tượng hưởng trợ cấp hưu trí xã hội", "field": "Bảo trợ xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 66, "name": "Trợ cấp một lần đối với thanh niên xung phong đã hoàn thành nhiệm vụ trong kháng chiến", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 67, "name": "Trợ cấp hàng tháng đối với thanh niên xung phong đã hoàn thành nhiệm vụ trong kháng chiến", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 68, "name": "Giải quyết trợ cấp một lần đối với người có thành tích tham gia kháng chiến đã được tặng Bằng khen của Thủ tướng Chính phủ, Bằng khen của Chủ tịch Hội đồng Bộ trưởng hoặc Bằng khen của Bộ trưởng, Thủ trưởng cơ quan ngang bộ, Thủ trưởng cơ quan thuộc Chính phủ, Bằng khen của Chủ tịch Ủy ban nhân dân tỉnh, thành phố trực thuộc Trung ương", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 69, "name": "Giải quyết chế độ trợ cấp một lần đối với người được cử làm chuyên gia sang giúp Lào, Căm-pu-chi-a", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 70, "name": "Giải quyết chế độ mai táng phí đối với cựu chiến binh", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 71, "name": "Giải quyết chế độ mai táng phí đối với thanh niên xung phong thời kỳ chống Pháp", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 72, "name": "Giải quyết chế độ trợ cấp thờ cúng liệt sĩ.", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 73, "name": "Giải quyết chế độ ưu đãi đối với trường hợp tặng hoặc truy tặng danh hiệu vinh dự nhà nước “Bà mẹ Việt Nam anh hùng", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 74, "name": "Giải quyết chế độ trợ cấp ưu đãi đối với thân nhân liệt sĩ", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 75, "name": "Giải quyết chế độ ưu đãi đối với vợ hoặc chồng liệt sĩ lấy chồng hoặc vợ khác", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 76, "name": "Giải quyết chế độ ưu đãi đối với Anh hùng lực lượng vũ trang nhân dân, Anh hùng lao động trong thời kỳ kháng chiến hiện không công tác trong quân đội, công an", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 77, "name": "Công nhận đối với người bị thương trong chiến tranh không thuộc quân đội, công an", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 78, "name": "Cấp tiền mua phương tiện trợ giúp, dụng cụ chỉnh hình, phương tiện, thiết bị phục hồi chức năng đối với trường hợp đang sống tại gia đình hoặc đang được nuôi dưỡng tập trung tại các cơ sở nuôi dưỡng, điều dưỡng do địa phương quản lý", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 79, "name": "Tiếp nhận người có công vào cơ sở nuôi dưỡng, điều dưỡng người có công do tỉnh quản lý", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 80, "name": "Công nhận và giải quyết chế độ ưu đãi người hoạt động kháng chiến bị nhiễm chất độc hóa học", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 81, "name": "Công nhận và giải quyết chế độ con đẻ của người hoạt động kháng chiến bị nhiễm chất độc hóa học", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 82, "name": "Công nhận và giải quyết chế độ người hoạt động cách mạng, kháng chiến, bảo vệ tổ quốc, làm nghĩa vụ quốc tế bị địch bắt tù, đày", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 83, "name": "Giải quyết chế độ người có công giúp đỡ cách mạng.", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 84, "name": "Bổ sung tình hình thân nhân trong hồ sơ liệt sĩ.", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 85, "name": "Di chuyển hài cốt liệt sĩ đang an táng ngoài nghĩa trang liệt sĩ về an táng tại nghĩa trang liệt sĩ theo nguyện vọng của đại diện thân nhân hoặc người hưởng trợ cấp thờ cúng liệt sĩ", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 86, "name": "Cấp bổ sung hoặc cấp lại giấy chứng nhận người có công do ngành Lao động - Thương binh và Xã hội quản lý và giấy chứng nhận thân nhân liệt sĩ", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 87, "name": "Công nhận và giải quyết chế độ ưu đãi người hoạt động cách mạng.", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 88, "name": "Giải quyết chế độ người hoạt động kháng chiến giải phóng dân tộc, bảo vệ tổ quốc và làm nghĩa vụ quốc tế", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 89, "name": "Giải quyết chế độ hỗ trợ để theo học đến trình độ đại học tại các cơ sở giáo dục thuộc hệ thống giáo dục quốc dân", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 90, "name": "Hưởng trợ cấp khi người có công đang hưởng trợ cấp ưu đãi từ trần", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 91, "name": "Di chuyển hài cốt liệt sĩ đang an táng tại nghĩa trang liệt sĩ đi nơi khác theo nguyện vọng của đại diện thân nhân hoặc người hưởng trợ cấp thờ cúng liệt sĩ", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 92, "name": "Cấp giấy xác nhận thân nhân của người có công", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 93, "name": "Cấp Bằng “Tổ quốc ghi công”", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 94, "name": "Cấp Bằng “Tổ quốc ghi công” đối với người hy sinh thuộc các trường hợp quy định tại Điều 14 Pháp lệnh nhưng chưa được cấp Bằng “Tổ quốc ghi công” mà thân nhân đã được giải quyết chế độ ưu đãi từ ngày 01 tháng 01 năm 1995 đến ngày 30 tháng 9 năm 2006", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 95, "name": "Tổ chức phát động học tập tấm gương trong phạm vi cả nước đối với trường hợp hy sinh, bị thương quy định tại điểm k khoản 1 Điều 14 và điểm k khoản 1 Điều 23 Pháp lệnh", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 96, "name": "Tiếp nhận người có công vào cơ sở nuôi dưỡng, điều dưỡng người có công do Bộ Nội vụ quản lý", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 97, "name": "Cấp Bằng “Tổ quốc ghi công” đối với người hy sinh hoặc mất tích trong chiến tranh", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 98, "name": "Cấp lại Bằng “Tổ quốc ghi công”", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 99, "name": "Cấp Bằng “Tổ quốc ghi công” đối với người hy sinh nhưng chưa được cấp Bằng “Tổ quốc ghi công” mà thân nhân đã được giải quyết chế độ ưu đãi từ ngày 31 tháng 12 năm 1994 trở về trước", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 100, "name": "Cấp đổi Bằng “Tổ quốc ghi công”", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 101, "name": "Công nhận và giải quyết chế độ ưu đãi người hoạt động cách mạng", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 102, "name": "Thăm viếng mộ liệt sĩ.", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 103, "name": "Giải quyết chế độ đối với quân nhân, cán bộ đi chiến trường B,C,K trong thời kỳ chống Mỹ cứu nước không có thân nhân phải trực tiếp nuôi dưỡng và quân nhân, cán bộ được đảng cử ở lại miền nam hoạt động sau hiệp định Giơnevơ năm 1954 đối với cán bộ dân, chính, đảng thuộc diện Trung ương quản lý", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 104, "name": "Xác nhận và giải quyết chế độ ưu đãi người có công với cách mạng và thân nhân", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 105, "name": "Giải quyết chế độ đối với quân nhân, cán bộ đi chiến trường B,C,K trong thời kỳ chống mỹ cứu nước không có thân nhân phải trực tiếp nuôi dưỡng và quân nhân, cán bộ được đảng cử ở lại miền nam hoạt động sau hiệp định Giơnevơ năm 1954 đối với cán bộ dân, chính, đảng", "field": "Người có công (Bộ Nội vụ)", "form": "" },
+  { "stt": 106, "name": "Thẩm định, phê duyệt phương án ứng phó thiên tai cho công trình vùng hạ du đập thủy điện thuộc thẩm quyền phê duyệt của Ủy ban nhân dân cấp xã", "field": "An toàn đập, hồ chứa thuỷ điện (Bộ Công Thương)", "form": "" },
+  { "stt": 107, "name": "Phê duyệt phương án cắm mốc chỉ giới xác định phạm vi bảo vệ đập thủy điện", "field": "An toàn đập, hồ chứa thuỷ điện (Bộ Công Thương)", "form": "" },
+  { "stt": 108, "name": "Phê duyệt đối tượng được hỗ trợ phí bảo hiểm nông nghiệp", "field": "Bảo hiểm (Bộ Tài chính)", "form": "" },
+  { "stt": 109, "name": "Xác nhận Hợp đồng tiếp cận nguồn gen và chia sẻ lợi ích (Cấp Xã)", "field": "Bảo tồn thiên nhiên và Đa dạng sinh học (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 110, "name": "Thông báo về việc thực hiện hoạt động bán hàng không tại địa điểm giao dịch thường xuyên", "field": "bảo vệ quyền lợi người tiêu dùng (Bộ Công Thương)", "form": "" },
+  { "stt": 111, "name": "Trả lại khu vực biển cho cá nhân Việt Nam để nuôi trồng thủy sản", "field": "Biển và hải đảo (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 112, "name": "Giao khu vực biển cho cá nhân Việt Nam để nuôi trồng thủy sản", "field": "Biển và hải đảo (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 113, "name": "Gia hạn thời hạn giao khu vực biển cho cá nhân Việt Nam để nuôi trồng thủy sản", "field": "Biển và hải đảo (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 114, "name": "Sửa đổi, bổ sung Quyết định giao khu vực biển cho cá nhân Việt Nam để nuôi trồng thủy sản", "field": "Biển và hải đảo (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 115, "name": "Công nhận khu vực biển cho cá nhân Việt Nam để nuôi trồng thủy sản", "field": "Biển và hải đảo (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 116, "name": "Giải quyết yêu cầu bồi thường tại cơ quan trực tiếp quản lý người thi hành công vụ gây thiệt hại (cấp xã)", "field": "Bồi thường nhà nước (Bộ Tư pháp)", "form": "" },
+  { "stt": 117, "name": "Thành lập lớp dành cho người khuyết tật trong trường mầm non, trường tiểu học, trường trung học cơ sở và trung tâm giáo dục thường xuyên, trung tâm giáo dục nghề nghiệp - giáo dục thường xuyên thực hiện các chương trình xóa mù chữ và chương trình giáo dục thường xuyên cấp trung học cơ sở", "field": "Các cơ sở giáo dục khác (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 118, "name": "Thành lập hoặc cho phép thành lập cơ sở giáo dục mầm non độc lập", "field": "Các cơ sở giáo dục khác (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 119, "name": "Cho phép cơ sở giáo dục mầm non độc lập hoạt động trở lại", "field": "Các cơ sở giáo dục khác (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 120, "name": "Cho phép cơ sở giáo dục khác thực hiện chương trình giáo dục phổ thông cấp tiểu học", "field": "Các cơ sở giáo dục khác (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 121, "name": "Sáp nhập, chia, tách cơ sở giáo dục mầm non độc lập", "field": "Các cơ sở giáo dục khác (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 122, "name": "Giải thể cơ sở giáo dục mầm non độc lập (theo đề nghị của tổ chức, cá nhân thành lập trường)", "field": "Các cơ sở giáo dục khác (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 123, "name": "Thủ tục xét tuyển Viên chức (85/2023/NĐ-CP)", "field": "Công chức, viên chức (Bộ Nội vụ)", "form": "" },
+  { "stt": 124, "name": "Thủ tục tiếp nhận vào viên chức không giữ chức vụ quản lý", "field": "Công chức, viên chức (Bộ Nội vụ)", "form": "" },
+  { "stt": 125, "name": "Thủ tục thi tuyển Viên Chức (Nghị định số 85/2023/NĐ-CP)", "field": "Công chức, viên chức (Bộ Nội vụ)", "form": "" },
+  { "stt": 126, "name": "Thi tuyển công chức", "field": "Công chức, viên chức (Bộ Nội vụ)", "form": "" },
+  { "stt": 127, "name": "Tiếp nhận vào công chức không giữ chức vụ lãnh đạo, quản lý", "field": "Công chức, viên chức (Bộ Nội vụ)", "form": "" },
+  { "stt": 128, "name": "Cấp Giấy chứng nhận sản phẩm công nghiệp nông thôn tiêu biểu cấp xã", "field": "Công nghiệp địa phương (Bộ Công Thương)", "form": "" },
+  { "stt": 129, "name": "Công nhận người có uy tín", "field": "Công tác dân tộc (Dân tộc và Tôn giáo)", "form": "" },
+  { "stt": 130, "name": "Đưa ra khỏi danh sách và thay thế, bổ sung người có uy tín", "field": "Công tác dân tộc (Dân tộc và Tôn giáo)", "form": "" },
+  { "stt": 131, "name": "Hỗ trợ chi phí về vật tư phối giống nhân tạo gia súc gồm tinh đông lạnh, Nitơ lỏng, găng tay và dụng cụ dẫn tinh để phối giống cho trâu, bò cái; chi phí về liều tinh để thực hiện phối giống cho lợn nái, công cho người làm dịch vụ phối giống nhân tạo gia súc (trâu, bò)", "field": "Chăn nuôi (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 132, "name": "Phê duyệt hỗ trợ kinh phí đào tạo, tập huấn để chuyển đổi từ chăn nuôi sang các nghề khác; chi phí cho cá nhân được đào tạo về kỹ thuật phối giống nhân tạo gia súc (trâu, bò); chi phí mua bình chứa Nitơ lỏng bảo quản tinh cho người làm dịch vụ phối giống nhân tạo gia súc (trâu, bò) đối với các chính sách sử dụng vốn sự nghiệp nguồn ngân sách nhà nước", "field": "Chăn nuôi (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 133, "name": "Giải quyết chế độ, chính sách cho người tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở chưa tham gia bảo hiểm y tế mà bị ốm đau, bị tai nạn, bị thương khi thực hiện nhiệm vụ", "field": "Chính sách (Bộ Công an)", "form": "" },
+  { "stt": 134, "name": "Giải quyết chế độ, chính sách cho người tham gia lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở chưa tham gia bảo hiểm xã hội mà bị tai nạn, chết khi thực hiện nhiệm vụ", "field": "Chính sách (Bộ Công an)", "form": "" },
+  { "stt": 135, "name": "Thủ tục chứng thực hợp đồng, giao dịch liên quan đến tài sản là động sản, quyền sử dụng đất, nhà ở", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 136, "name": "Thủ tục cấp bản sao từ sổ gốc", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 137, "name": "Chứng thực bản sao từ bản chính giấy tờ, văn bản do cơ quan, tổ chức có thẩm quyền của Việt Nam; cơ quan, tổ chức có thẩm quyền của nước ngoài; cơ quan, tổ chức có thẩm quyền của Việt Nam liên kết với cơ quan, tổ chức có thẩm quyền của nước ngoài cấp hoặc chứng nhận", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 138, "name": "Thủ tục chứng thực chữ ký trong các giấy tờ, văn bản (áp dụng cho cả trường hợp chứng thực điểm chỉ và trường hợp người yêu cầu chứng thực không thể ký, không thể điểm chỉ được)", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 139, "name": "Chứng thực việc sửa đổi, bổ sung, hủy bỏ hợp đồng, giao dịch", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 140, "name": "Thủ tục sửa lỗi sai sót trong hợp đồng, giao dịch", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 141, "name": "Thủ tục cấp bản sao có chứng thực từ bản chính hợp đồng, giao dịch đã được chứng thực", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 142, "name": "Thủ tục chứng thực di chúc", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 143, "name": "Thủ tục chứng thực văn bản từ chối nhận di sản", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 144, "name": "Thủ tục chứng thực văn bản thỏa thuận phân chia di sản mà di sản là động sản, quyền sử dụng đất, nhà ở", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 145, "name": "Thủ tục chứng thực văn bản khai nhận di sản mà di sản là động sản, quyền sử dụng đất, nhà ở", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 146, "name": "Chứng thực chữ ký người dịch mà người dịch là cộng tác viên dịch thuật của Ủy ban nhân dân cấp xã", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 147, "name": "Thủ tục chứng thực chữ ký người dịch mà người dịch không phải là cộng tác viên dịch thuật", "field": "Chứng thực (Bộ Tư pháp)", "form": "" },
+  { "stt": 148, "name": "Chấp thuận vị trí, quy mô, kích thước, phương án tổ chức thi công biển quảng cáo, biển thông tin cổ động, tuyên truyền chính trị; chấp thuận xây dựng, lắp đặt công trình hạ tầng, công trình hạ tầng kỹ thuật sử dụng chung trong phạm vi bảo vệ kết cấu hạ tầng đường bộ; chấp thuận gia cường công trình đường bộ khi cần thiết để cho phép xe quá khổ giới hạn, xe quá tải trọng, xe bánh xích lưu hành trên đường bộ", "field": "Đường bộ (Bộ Xây dựng)", "form": "" },
+  { "stt": 149, "name": "Cấp giấy phép thi công công trình thiết yếu trong phạm vi đất dành cho đường bộ của hệ thống đường đô thị, đường huyện, đường xã đang khai thác", "field": "Đường bộ (Bộ Xây dựng)", "form": "" },
+  { "stt": 150, "name": "Thủ tục cấp giấy phép thi công cấp nước sinh hoạt trong phạm vi đất dành cho đường bộ của hệ thống đường đô thị, đường huyện, đường xã đang khai thác", "field": "Đường bộ (Bộ Xây dựng)", "form": "" },
+  { "stt": 151, "name": "Cấp phép thi công nút giao đấu nối đường nhánh vào đường đô thị, đường huyện", "field": "Đường bộ (Bộ Xây dựng)", "form": "" },
+  { "stt": 152, "name": "Chấp thuận xây dựng công trình thiết yếu trong phạm vi đất dành cho đường bộ của hệ thống đường đô thị, đường huyện, đường xã đang khai thác", "field": "Đường bộ (Bộ Xây dựng)", "form": "" },
+  { "stt": 153, "name": "Cấp phép thi công công trình đường bộ trong phạm vi đất dành cho đường bộ của hệ thống đường đô thị, đường huyện, đường xã đang khai thác", "field": "Đường bộ (Bộ Xây dựng)", "form": "" },
+  { "stt": 154, "name": "Cấp phép thi công nút giao đấu nối tạm có thời hạn vào đường đô thị, đường huyện, đường xã đang khai thác", "field": "Đường bộ (Bộ Xây dựng)", "form": "" },
+  { "stt": 155, "name": "Gia hạn giấy phép thi công (cấp huyện)", "field": "Đường bộ (Bộ Xây dựng)", "form": "" },
+  { "stt": 156, "name": "Cấp phép sử dụng tạm thời lòng đường, vỉa hè vào mục đích khác", "field": "Đường bộ (Bộ Xây dựng)", "form": "" },
+  { "stt": 157, "name": "Chấp thuận vị trí đấu nối tạm vào đường bộ đang khai thác", "field": "Đường bộ (Bộ Xây dựng)", "form": "" },
+  { "stt": 158, "name": "Cấp giấy phép thi công công trình trên đường bộ đang khai thác", "field": "Đường bộ (Bộ Xây dựng)", "form": "" },
+  { "stt": 159, "name": "Thủ tục giải quyết khiếu nại lần đầu tại cấp xã", "field": "Giải quyết khiếu nại (Thanh tra Chính phủ)", "form": "" },
+  { "stt": 160, "name": "Thủ tục giải quyết tố cáo tại cấp xã", "field": "Giải quyết tố cáo (Thanh tra Chính phủ)", "form": "" },
+  { "stt": 161, "name": "Công nhận hộ nghèo, hộ cận nghèo; hộ thoát nghèo, hộ thoát cận nghèo định kỳ hằng năm", "field": "Giảm nghèo (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 162, "name": "Công nhận hộ nghèo, hộ cận nghèo thường xuyên hằng năm", "field": "Giảm nghèo (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 163, "name": "Công nhận hộ thoát nghèo, hộ thoát cận nghèo thường xuyên hằng năm", "field": "Giảm nghèo (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 164, "name": "Công nhận hộ làm nông nghiệp, lâm nghiệp, ngư nghiệp và diêm nghiệp có mức sống trung bình", "field": "Giảm nghèo (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 165, "name": "Công nhận người lao động có thu nhập thấp", "field": "Giảm nghèo (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 166, "name": "Cho phép trường mẫu giáo, trường mầm non, nhà trẻ hoạt động giáo dục", "field": "Giáo dục mầm non (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 167, "name": "Cho phép trường mẫu giáo, trường mầm non, nhà trẻ hoạt động giáo dục trở lại", "field": "Giáo dục mầm non (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 168, "name": "Sáp nhập, chia, tách trường mẫu giáo, trường mầm non, nhà trẻ", "field": "Giáo dục mầm non (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 169, "name": "Giải thể trường mẫu giáo, trường mầm non, nhà trẻ", "field": "Giáo dục mầm non (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 170, "name": "Thành lập hoặc cho phép thành lập trường mẫu giáo, trường mầm non, nhà trẻ", "field": "Giáo dục mầm non (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 171, "name": "Cấp chính sách nội trú cho học sinh, sinh viên tham gia chương trình đào tạo trình độ cao đẳng, trung cấp tại các cơ sở giáo dục nghề nghiệp tư thục hoặc cơ sở giáo dục có vốn đầu tư nước ngoài", "field": "Giáo dục nghề nghiệp (G07-LĐ06) (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 172, "name": "Cấp chính sách nội trú cho học sinh, sinh viên tham gia chương trình đào tạo trình độ cao đẳng, trung cấp tại các cơ sở giáo dục nghề nghiệp công lập trực thuộc xã", "field": "Giáo dục nghề nghiệp (G07-LĐ06) (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 173, "name": "Giải thể trường tiểu học (theo đề nghị của tổ chức, cá nhân đề nghị thành lập trường tiểu học)", "field": "Giáo dục tiểu học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 174, "name": "Chuyển trường đối với học sinh tiểu học", "field": "Giáo dục tiểu học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 175, "name": "Cho phép trường tiểu học hoạt động giáo dục", "field": "Giáo dục tiểu học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 176, "name": "Cho phép trường tiểu học hoạt động giáo dục trở lại", "field": "Giáo dục tiểu học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 177, "name": "Sáp nhập, chia, tách trường tiểu học", "field": "Giáo dục tiểu học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 178, "name": "Thành lập hoặc cho phép thành lập trường tiểu học", "field": "Giáo dục tiểu học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 179, "name": "Sáp nhập, chia, tách trung tâm học tập cộng đồng", "field": "Giáo dục thường xuyên (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 180, "name": "Giải thể trung tâm học tập cộng đồng (theo đề nghị của tổ chức, cá nhân thành lập trung tâm)", "field": "Giáo dục thường xuyên (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 181, "name": "Cho phép trung tâm học tập cộng đồng hoạt động trở lại", "field": "Giáo dục thường xuyên (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 182, "name": "Thành lập hoặc cho phép thành lập trung tâm học tập cộng đồng", "field": "Giáo dục thường xuyên (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 183, "name": "Thuyên chuyển đối tượng học bổ túc trung học cơ sở", "field": "Giáo dục trung học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 184, "name": "Tuyển sinh trung học cơ sở", "field": "Giáo dục trung học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 185, "name": "Chuyển trường đối với học sinh trung học cơ sở.", "field": "Giáo dục trung học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 186, "name": "Tiếp nhận học sinh trung học cơ sở Việt Nam về nước", "field": "Giáo dục trung học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 187, "name": "Tiếp nhận học sinh trung học cơ sở người nước ngoài", "field": "Giáo dục trung học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 188, "name": "Cho phép trường trung học cơ sở, trường phổ thông có nhiều cấp học có cấp học cao nhất là trung học cơ sở hoạt động giáo dục", "field": "Giáo dục trung học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 189, "name": "Thành lập hoặc cho phép thành lập trường trung học cơ sở, trường phổ thông có nhiều cấp học có cấp học cao nhất là trung học cơ sở", "field": "Giáo dục trung học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 190, "name": "Giải thể trường trung học cơ sở, trường phổ thông có nhiều cấp học có cấp học cao nhất là trung học cơ sở (Theo đề nghị của tổ chức, cá nhân thành lập trường)", "field": "Giáo dục trung học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 191, "name": "Cho phép trường trung học cơ sở, trường phổ thông có nhiều cấp học có cấp học cao nhất là trung học cơ sở hoạt động giáo dục trở lại", "field": "Giáo dục trung học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 192, "name": "Sáp nhập, chia, tách trường trung học cơ sở, trường phổ thông có nhiều cấp học có cấp học cao nhất là trung học cơ sở", "field": "Giáo dục trung học (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 193, "name": "Hỗ trợ ăn trưa đối với trẻ em mẫu giáo", "field": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 194, "name": "Hỗ trợ học tập đối với trẻ mẫu giáo, học sinh tiểu học, học sinh trung học cơ sở, sinh viên các dân tộc thiểu số rất ít người", "field": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 195, "name": "Công nhận trường mầm non đạt chuẩn Quốc gia", "field": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 196, "name": "Công nhận trường trung học đạt chuẩn Quốc gia", "field": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 197, "name": "Công nhận trường tiểu học đạt chuẩn quốc gia", "field": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 198, "name": "Cấp học bổng và hỗ trợ kinh phí mua phương tiện, đồ dùng học tập dùng riêng cho người khuyết tật học tại các cơ sở giáo dục", "field": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 199, "name": "Chuyển đổi nhà trẻ, trường mẫu giáo, trường mầm non tư thục do nhà đầu tư trong nước đầu tư sang nhà trẻ, trường mẫu giáo, trường mầm non tư thục hoạt động không vì lợi nhuận", "field": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 200, "name": "Xét, cấp học bổng chính sách", "field": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 201, "name": "Chuyển đổi trường tiểu học tư thục, trường trung học cơ sở tư thục và trường phổ thông tư thục có nhiều cấp học có cấp học cao nhất là trung học cơ sở do nhà đầu tư trong nước đầu tư sang trường phổ thông tư thục hoạt động không vì lợi nhuận", "field": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 202, "name": "Hỗ trợ đối với giáo viên mầm non làm việc tại cơ sở giáo dục mầm non dân lập, tư thục ở địa bàn có khu công nghiệp", "field": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 203, "name": "Trợ cấp đối với trẻ em mầm non là con công nhân, người lao động làm việc tại khu công nghiệp", "field": "Giáo dục và Đào tạo thuộc hệ thống giáo dục quốc dân (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 204, "name": "Cấp giấy phép sử dụng tạm thời một phần hè phố, lòng đường để trông, giữ xe có thu phí", "field": "Hạ tầng kỹ thuật (Bộ Xây dựng)", "form": "" },
+  { "stt": 205, "name": "Cấp giấy phép sử dụng tạm thời một phần hè phố không vào mục đích giao thông để thực hiện: tuyên truyền chủ trương, chính sách của Đảng và pháp luật của nhà nước; điểm trông, giữ xe phục vụ hoạt động văn hóa, thể thao, diễu hành, lễ hội; điểm trung chuyển vật liệu, phế thải xây dựng để phục vụ thi công công trình của hộ gia đình", "field": "Hạ tầng kỹ thuật (Bộ Xây dựng)", "form": "" },
+  { "stt": 206, "name": "Cấp giấy phép sử dụng tạm thời một phần lòng đường không vào mục đích giao thông đối với: Điểm trông, giữ xe ô tô phục vụ các hoạt động văn hóa, thể thao, diễu hành, lễ hội; điểm trung chuyển rác thải sinh hoạt của doanh nghiệp vệ sinh môi trường đô thị", "field": "Hạ tầng kỹ thuật (Bộ Xây dựng)", "form": "" },
+  { "stt": 207, "name": "Đăng ký lại phương tiện trong trường hợp chuyển quyền sở hữu phương tiện nhưng không thay đổi cơ quan đăng ký phương tiện", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 208, "name": "Công bố lại hoạt động bến thủy nội địa", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 209, "name": "Đăng ký lại phương tiện trong trường hợp phương tiện thay đổi tên, tính năng kỹ thuật", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 210, "name": "Cấp lại Giấy chứng nhận đăng ký phương tiện", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 211, "name": "Xóa đăng ký phương tiện", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 212, "name": "Đăng ký phương tiện lần đầu đối với phương tiện chưa khai thác trên đường thủy nội địa", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 213, "name": "Đăng ký phương tiện lần đầu đối với phương tiện đang khai thác trên đường thủy nội địa", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 214, "name": "Đăng ký lại phương tiện trong trường hợp chuyển từ cơ quan đăng ký khác sang cơ quan đăng ký phương tiện thủy nội địa", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 215, "name": "Đăng ký lại phương tiện trong trường hợp chuyển quyền sở hữu phương tiện đồng thời thay đổi cơ quan đăng ký phương tiện", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 216, "name": "Công bố mở, cho phép hoạt động tại vùng nước khác không thuộc vùng nước trên tuyến đường thủy nội địa, vùng nước cảng biển hoặc khu vực hàng hải, được đánh dấu, xác định vị trí bằng phao hoặc cờ hiệu có màu sắc dễ quan sát", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 217, "name": "Đóng, không cho phép hoạt động tại vùng nước khác không thuộc vùng nước trên tuyến đường thủy nội địa, vùng nước cảng biển hoặc khu vực hàng hải, được đánh dấu, xác định vị trí bằng phao hoặc cờ hiệu có màu sắc dễ quan sát", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 218, "name": "Đăng ký phương tiện hoạt động vui chơi, giải trí dưới nước lần đầu", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 219, "name": "Đăng ký lại phương tiện hoạt động vui chơi, giải trí dưới nước", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 220, "name": "Cấp lại Giấy chứng nhận đăng ký phương tiện hoạt động vui chơi, giải trí dưới nước", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 221, "name": "Xóa đăng ký phương tiện hoạt động vui chơi, giải trí dưới nước", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 222, "name": "Đăng ký lại phương tiện trong trường hợp chủ phương tiện thay đổi trụ sở hoặc nơi đăng ký hộ khẩu thường trú của chủ phương tiện sang đơn vị hành chính cấp tỉnh khác", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 223, "name": "Công bố đóng cảng, bến thủy nội địa", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 224, "name": "Công bố hoạt động bến thủy nội địa", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 225, "name": "Gia hạn hoạt động cảng, bến thủy nội địa", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 226, "name": "Thỏa thuận thông số kỹ thuật xây dựng bến thủy nội địa", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 227, "name": "Thỏa thuận thông số kỹ thuật xây dựng bến khách ngang sông, bến thủy nội địa phục vụ thi công công trình chính", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 228, "name": "Công bố hoạt động bến khách ngang sông, bến thủy nội địa phục vụ thi công công trình chính", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 229, "name": "Chấp thuận phương án bảo đảm an toàn giao thông", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 230, "name": "Xác nhận trình báo đường thủy nội địa hoặc trình báo đường thủy nội địa bổ sung", "field": "Hàng hải và đường thủy nội địa (Bộ Xây dựng)", "form": "" },
+  { "stt": 231, "name": "Cấp giấy phép di dời đối với công trình cấp III, cấp IV (Công trình không theo tuyến/Theo tuyến trong đô thị/Tín ngưỡng, tôn giáo/Tượng đài, tranh hoành tráng/Theo giai đoạn cho công trình không theo tuyến/Theo giai đoạn cho công trình theo tuyến trong đô thị/Dự án) và nhà ở riêng lẻ", "field": "Hoạt động xây dựng (Bộ Xây dựng)", "form": "" },
+  { "stt": 232, "name": "Cấp giấy phép xây dựng sửa chữa, cải tạo đối với công trình cấp III, cấp IV (công trình Không theo tuyến/Theo tuyến trong đô thị/Tín ngưỡng, tôn giáo/Tượng đài, tranh hoành tráng/Theo giai đoạn cho công trình không theo tuyến/Theo giai đoạn cho công trình theo tuyến trong đô thị/Dự án) và nhà ở riêng lẻ:", "field": "Hoạt động xây dựng (Bộ Xây dựng)", "form": "" },
+  { "stt": 233, "name": "Cấp điều chỉnh giấy phép xây dựng đối với công trình cấp III, cấp IV (công trình Không theo tuyến/Theo tuyến trong đô thị/Tín ngưỡng, tôn giáo/Tượng đài, tranh hoành tráng/Theo giai đoạn cho công trình không theo tuyến/Theo giai đoạn cho công trình theo tuyến trong đô thị/Dự án) và nhà ở riêng lẻ", "field": "Hoạt động xây dựng (Bộ Xây dựng)", "form": "" },
+  { "stt": 234, "name": "Gia hạn giấy phép xây dựng đối với công trình cấp III, cấp IV (công trình Không theo tuyến/Theo tuyến trong đô thị/Tín ngưỡng, tôn giáo/Tượng đài, tranh hoành tráng/Sửa chữa, cải tạo/Theo giai đoạn cho công trình không theo tuyến/Theo giai đoạn cho công trình theo tuyến trong đô thị/Dự án) và nhà ở riêng lẻ", "field": "Hoạt động xây dựng (Bộ Xây dựng)", "form": "" },
+  { "stt": 235, "name": "Cấp lại giấy phép xây dựng đối với công trình cấp III, cấp IV (công trình Không theo tuyến/Theo tuyến trong đô thị/Tín ngưỡng, tôn giáo/Tượng đài, tranh hoành tráng/Sửa chữa, cải tạo/Theo giai đoạn cho công trình không theo tuyến/Theo giai đoạn cho công trình theo tuyến trong đô thị/Dự án) và nhà ở riêng lẻ", "field": "Hoạt động xây dựng (Bộ Xây dựng)", "form": "" },
+  { "stt": 236, "name": "Cấp giấy phép xây dựng mới đối với công trình cấp III, cấp IV (Công trình không theo tuyến/Theo tuyến trong đô thị/Tín ngưỡng, tôn giáo/Tượng đài, tranh hoành tráng/Theo giai đoạn cho công trình không theo tuyến/Theo giai đoạn cho công trình theo tuyến trong đô thị/Dự án) và nhà ở riêng lẻ", "field": "Hoạt động xây dựng (Bộ Xây dựng)", "form": "" },
+  { "stt": 237, "name": "Đăng ký nhu cầu hỗ trợ của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã", "field": "Hỗ trợ tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 238, "name": "Cấp Chứng nhận trường mầm non đạt kiểm định chất lượng giáo dục", "field": "Kiểm định chất lượng giáo dục (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 239, "name": "Cấp Chứng nhận trường trung học đạt kiểm định chất lượng giáo dục", "field": "Kiểm định chất lượng giáo dục (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 240, "name": "Cấp Chứng nhận trường tiểu học đạt kiểm định chất lượng giáo dục", "field": "Kiểm định chất lượng giáo dục (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 241, "name": "Quyết định chuyển mục đích sử dụng rừng sang mục đích khác đối với cá nhân", "field": "Kiểm lâm (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 242, "name": "Quyết định thu hồi rừng đối với hộ gia đình, cá nhân và cộng đồng dân cư tự nguyện trả lại rừng", "field": "Kiểm lâm (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 243, "name": "Cấp Giấy chứng nhận đủ điều kiện cửa hàng bán lẻ LPG chai", "field": "Kinh doanh khí (Bộ Công Thương)", "form": "" },
+  { "stt": 244, "name": "Cấp lại Giấy chứng nhận đủ điều kiện cửa hàng bán lẻ LPG chai", "field": "Kinh doanh khí (Bộ Công Thương)", "form": "" },
+  { "stt": 245, "name": "Cấp điều chỉnh Giấy chứng nhận đủ điều kiện cửa hàng bán lẻ LPG chai", "field": "Kinh doanh khí (Bộ Công Thương)", "form": "" },
+  { "stt": 246, "name": "Hỗ trợ dự án liên kết (cấp xã)", "field": "Kinh tế hợp tác và Phát triển nông thôn (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 247, "name": "Thẩm định thiết kế, dự toán công trình lâm sinh hoặc thẩm định điều chỉnh thiết kế, dự toán công trình lâm sinh sử dụng vốn đầu tư công", "field": "Lâm nghiệp (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 248, "name": "Phê duyệt Phương án khai thác gỗ, thực vật rừng ngoài gỗ loài thông thường thuộc thẩm quyền giải quyết của Ủy ban nhân dân cấp xã", "field": "Lâm nghiệp (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 249, "name": "Phê duyệt hoặc điều chỉnh phương án quản lý rừng bền vững của chủ rừng là hộ gia đình, cá nhân, cộng đồng dân cư hoặc hộ gia đình cá nhân liên kết thành nhóm hộ, tổ hợp tác trường hợp có tổ chức các hoạt động du lịch sinh thái", "field": "Lâm nghiệp (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 250, "name": "Hỗ trợ tín dụng đầu tư trồng rừng gỗ lớn đối với chủ rừng là hộ gia đình, cá nhân", "field": "Lâm nghiệp (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 251, "name": "Lập biên bản kiểm tra hiện trường xác định nguyên nhân, mức độ thiệt hại rừng trồng", "field": "Lâm nghiệp (Bộ Nông nghiệp và Môi trường)", "form": "" },
+{ "stt": 252, "name": "Thẩm định, phê duyệt hoặc điều chỉnh phương án nuôi, trồng phát triển, thu hoạch cây dược liệu trong rừng đối với chủ rừng là hộ gia đình, cá nhân, cộng đồng dân cư", "field": "Lâm nghiệp (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 253, "name": "Cấp Giấy phép bán lẻ rượu", "field": "Lưu thông hàng hóa trong nước (Bộ Công Thương)", "form": "" },
+  { "stt": 254, "name": "Cấp sửa đổi, bổ sung Giấy phép bán lẻ rượu", "field": "Lưu thông hàng hóa trong nước (Bộ Công Thương)", "form": "" },
+  { "stt": 255, "name": "Cấp lại Giấy phép bán lẻ rượu", "field": "Lưu thông hàng hóa trong nước (Bộ Công Thương)", "form": "" },
+  { "stt": 256, "name": "Cấp Giấy phép sản xuất rượu thủ công nhằm mục đích kinh doanh", "field": "Lưu thông hàng hóa trong nước (Bộ Công Thương)", "form": "" },
+  { "stt": 257, "name": "Cấp sửa đổi, bổ sung Giấy phép sản xuất rượu thủ công nhằm mục đích kinh doanh", "field": "Lưu thông hàng hóa trong nước (Bộ Công Thương)", "form": "" },
+  { "stt": 258, "name": "Cấp lại Giấy phép sản xuất rượu thủ công nhằm mục đích kinh doanh", "field": "Lưu thông hàng hóa trong nước (Bộ Công Thương)", "form": "" },
+  { "stt": 259, "name": "Cấp Giấy phép bán lẻ sản phẩm thuốc lá", "field": "Lưu thông hàng hóa trong nước (Bộ Công Thương)", "form": "" },
+  { "stt": 260, "name": "Cấp sửa đổi, bổ sung Giấy phép bán lẻ sản phẩm thuốc lá", "field": "Lưu thông hàng hóa trong nước (Bộ Công Thương)", "form": "" },
+  { "stt": 261, "name": "Cấp lại Giấy phép bán lẻ sản phẩm thuốc lá", "field": "Lưu thông hàng hóa trong nước (Bộ Công Thương)", "form": "" },
+  { "stt": 262, "name": "Tham vấn trong đánh giá tác động môi trường (cấp xã) (1.010736)", "field": "Môi trường (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 263, "name": "Phê duyệt kế hoạch khuyến nông địa phương (cấp xã)", "field": "Nông nghiệp (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 264, "name": "Đăng ký việc nuôi con nuôi trong nước", "field": "Nuôi con nuôi (Bộ Tư pháp)", "form": "" },
+  { "stt": 265, "name": "Đăng ký lại việc nuôi con nuôi trong nước", "field": "Nuôi con nuôi (Bộ Tư pháp)", "form": "" },
+  { "stt": 266, "name": "Ghi vào Sổ đăng ký nuôi con nuôi việc nuôi con nuôi đã được giải quyết tại cơ quan có thẩm quyền của nước ngoài", "field": "Nuôi con nuôi (Bộ Tư pháp)", "form": "" },
+  { "stt": 267, "name": "Công nhận Ban quản trị nhà chung cư", "field": "Nhà ở và công sở (Bộ Xây dựng)", "form": "" },
+  { "stt": 268, "name": "Thủ tục cấp lại giấy chứng nhận đủ điều kiện hoạt động điểm cung cấp dịch vụ trò chơi điện tử công cộng", "field": "Phát thanh, truyền hình và thông tin điện tử (Bộ Văn hóa, Thể thao và Du lịch)", "form": "" },
+  { "stt": 269, "name": "Thủ tục gia hạn giấy chứng nhận đủ điều kiện hoạt động điểm cung cấp dịch vụ trò chơi điện tử công cộng", "field": "Phát thanh, truyền hình và thông tin điện tử (Bộ Văn hóa, Thể thao và Du lịch)", "form": "" },
+  { "stt": 270, "name": "Thủ tục cấp giấy chứng nhận đủ điều kiện hoạt động điểm cung cấp dịch vụ trò chơi điện tử công cộng", "field": "Phát thanh, truyền hình và thông tin điện tử (Bộ Văn hóa, Thể thao và Du lịch)", "form": "" },
+  { "stt": 271, "name": "Thủ tục sửa đổi, bổ sung giấy chứng nhận đủ điều kiện hoạt động điểm cung cấp dịch vụ trò chơi điện tử công cộng", "field": "Phát thanh, truyền hình và thông tin điện tử (Bộ Văn hóa, Thể thao và Du lịch)", "form": "" },
+  { "stt": 272, "name": "Hỗ trợ học văn hóa, học nghề, trợ cấp khó khăn ban đầu cho nạn nhân", "field": "Phòng, chống tệ nạn xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 273, "name": "Công bố cơ sở cai nghiện ma túy tự nguyện, cơ sở cai nghiện ma túy công lập đủ điều kiện cung cấp dịch vụ cai nghiện ma túy tự nguyện tại gia đình, cộng đồng", "field": "Phòng, chống tệ nạn xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 274, "name": "Công bố tổ chức, cá nhân đủ điều kiện cung cấp dịch vụ cai nghiện ma túy tự nguyện tại gia đình, cộng đồng", "field": "Phòng, chống tệ nạn xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 275, "name": "Công bố lại tổ chức, cá nhân cung cấp dịch vụ cai nghiện ma túy tự nguyện tại gia đình, cộng đồng", "field": "Phòng, chống tệ nạn xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 276, "name": "Đăng ký cai nghiện ma túy tự nguyện", "field": "Phòng, chống tệ nạn xã hội (Bộ Y tế)", "form": "" },
+  { "stt": 277, "name": "Thủ tục thôi làm hòa giải viên (cấp xã)", "field": "Phổ biến giáo dục pháp luật (Bộ Tư pháp)", "form": "" },
+  { "stt": 278, "name": "Thủ tục thanh toán thù lao cho hòa giải viên", "field": "Phổ biến giáo dục pháp luật (Bộ Tư pháp)", "form": "" },
+  { "stt": 279, "name": "Thủ tục thực hiện hỗ trợ khi hòa giải viên gặp tai nạn hoặc rủi ro ảnh hưởng đến sức khỏe, tính mạng trong khi thực hiện hoạt động hòa giải", "field": "Phổ biến giáo dục pháp luật (Bộ Tư pháp)", "form": "" },
+  { "stt": 280, "name": "Thanh lý tài sản kết cấu hạ tầng thủy lợi; xử lý tài sản kết cấu hạ tầng thủy lợi trong trường hợp bị mất, hủy hoại", "field": "Quản lý công sản (Bộ Tài chính)", "form": "" },
+  { "stt": 281, "name": "Giao tài sản kết cấu hạ tầng thủy lợi", "field": "Quản lý công sản (Bộ Tài chính)", "form": "" },
+  { "stt": 282, "name": "Thanh toán chi phí liên quan đến xử lý tài sản kết cấu hạ tầng thủy lợi", "field": "Quản lý công sản (Bộ Tài chính)", "form": "" },
+  { "stt": 283, "name": "Quyết định xác lập quyền sở hữu toàn dân đối với tài sản không có người thừa kế", "field": "Quản lý công sản (Bộ Tài chính)", "form": "" },
+  { "stt": 284, "name": "Trợ cấp tiền tuất, tai nạn (đối với trường hợp tai nạn suy giảm khả năng lao động từ 5% trở lên) cho lực lượng xung kích phòng chống thiên tai cấp xã chưa tham gia bảo hiểm xã hội", "field": "Quản lý Đê điều và Phòng, chống thiên tai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 285, "name": "Hỗ trợ khám chữa bệnh, trợ cấp tai nạn cho lực lượng xung kích phòng chống thiên tai cấp xã trong trường hợp chưa tham gia bảo hiểm y tế, bảo hiểm xã hội", "field": "Quản lý Đê điều và Phòng, chống thiên tai (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 286, "name": "Đăng ký hợp đồng lao động trực tiếp giao kết", "field": "Quản lý lao động ngoài nước (Bộ Nội vụ)", "form": "" },
+  { "stt": 287, "name": "Cấp giấy phép thành lập và công nhận điều lệ quỹ", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 288, "name": "Công nhận ban vận động thành lập hội", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 289, "name": "Thành lập hội", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 290, "name": "Báo cáo tổ chức đại hội thành lập, đại hội nhiệm kỳ, đại hội bất thường của hội", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 291, "name": "Thông báo kết quả đại hội và phê duyệt đổi tên hội, phê duyệt điều lệ hội", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 292, "name": "Hội tự giải thể", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 293, "name": "Cho phép hội hoạt động trở lại sau khi bị đình chỉ có thời hạn", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 294, "name": "Hỗ trợ chi phí y tế và thu nhập thực tế bị mất hoặc giảm sút cho người đang trực tiếp tham gia hoạt động chữ thập đỏ bị tai nạn dẫn đến thiệt hại về sức khỏe", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 295, "name": "Chia, tách; sáp nhập; hợp nhất hội", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 296, "name": "Công nhận điều lệ (sửa đổi, bổ sung) quỹ; đổi tên quỹ", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 297, "name": "Cho phép quỹ hoạt động trở lại sau khi bị tạm đình chỉ hoạt động", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 298, "name": "Công nhận quỹ đủ điều kiện hoạt động và công nhận thành viên hội đồng quản lý quỹ; công nhận thay đổi, bổ sung thành viên hội đồng quản lý quỹ", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 299, "name": "Quỹ tự giải thể", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 300, "name": "Cấp lại giấy phép thành lập và công nhận điều lệ quỹ", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 301, "name": "Hợp nhất, sáp nhập, chia, tách quỹ", "field": "Quản lý nhà nước về hội, quỹ (Bộ Nội vụ)", "form": "" },
+  { "stt": 302, "name": "Thủ tục khai, nộp phí bảo vệ môi trường đối với khí thải", "field": "Quản lý thuế, phí, lệ phí và thu khác của ngân sách nhà nước (Bộ Tài chính)", "form": "" },
+  { "stt": 303, "name": "Kê khai, thẩm định tờ khai phí bảo vệ môi trường đối với nước thải", "field": "Quản lý thuế, phí, lệ phí và thu khác của ngân sách nhà nước (Bộ Tài chính)", "form": "" },
+  { "stt": 304, "name": "Thủ tục thẩm định nhiệm vụ, nhiệm vụ điều chỉnh quy hoạch chi tiết của dự án đầu tư xây dựng công trình theo hình thức kinh doanh thuộc thẩm quyền phê duyệt của UBND cấp xã", "field": "Quy hoạch xây dựng, kiến trúc (Bộ Xây dựng)", "form": "" },
+  { "stt": 305, "name": "Thẩm định đồ án, đồ án điều chỉnh quy hoạch chi tiết của dự án đầu tư xây dựng công trình theo hình thức kinh doanh thuộc thẩm quyền phê duyệt của UBND cấp xã", "field": "Quy hoạch xây dựng, kiến trúc (Bộ Xây dựng)", "form": "" },
+  { "stt": 306, "name": "Cung cấp thông tin về quy hoạch xây dựng thuộc thẩm quyền của UBND cấp xã", "field": "Quy hoạch xây dựng, kiến trúc (Bộ Xây dựng)", "form": "" },
+  { "stt": 307, "name": "Đăng ký khai thác, sử dụng nước dưới đất", "field": "Tài nguyên nước (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 308, "name": "Giao tài sản kết cấu hạ tầng chợ do cấp xã quản lý", "field": "Tài sản kết cấu hạ tầng chợ do Nhà nước đầu tư, quản lý (Bộ Công Thương)", "form": "" },
+  { "stt": 309, "name": "Thu hồi tài sản kết cấu hạ tầng chợ", "field": "Tài sản kết cấu hạ tầng chợ do Nhà nước đầu tư, quản lý (Bộ Công Thương)", "form": "" },
+  { "stt": 310, "name": "Thủ tục tiếp công dân tại cấp xã", "field": "Tiếp công dân (Thanh tra Chính phủ)", "form": "" },
+  { "stt": 311, "name": "THỦ TỤC ĐĂNG KÝ HOẠT ĐỘNG TÍN NGƯỠNG (CẤP XÃ)", "field": "Tín ngưỡng, tôn giáo (Dân tộc và Tôn giáo)", "form": "" },
+  { "stt": 312, "name": "THỦ TỤC ĐĂNG KÝ BỔ SUNG HOẠT ĐỘNG TÍN NGƯỠNG (CẤP XÃ)", "field": "Tín ngưỡng, tôn giáo (Dân tộc và Tôn giáo)", "form": "" },
+  { "stt": 313, "name": "THỦ TỤC ĐĂNG KÝ SINH HOẠT TÔN GIÁO TẬP TRUNG (CẤP XÃ)", "field": "Tín ngưỡng, tôn giáo (Dân tộc và Tôn giáo)", "form": "" },
+  { "stt": 314, "name": "THỦ TỤC ĐỀ NGHỊ THAY ĐỔI ĐỊA ĐIỂM SINH HOẠT TÔN GIÁO TẬP TRUNG ĐẾN ĐỊA BÀN XÃ KHÁC (CẤP XÃ)", "field": "Tín ngưỡng, tôn giáo (Dân tộc và Tôn giáo)", "form": "" },
+  { "stt": 315, "name": "THỦ TỤC ĐĂNG KÝ THAY ĐỔI NGƯỜI ĐẠI DIỆN CỦA NHÓM SINH HOẠT TÔN GIÁO TẬP TRUNG (CẤP XÃ)", "field": "Tín ngưỡng, tôn giáo (Dân tộc và Tôn giáo)", "form": "" },
+  { "stt": 316, "name": "THỦ TỤC ĐỀ NGHỊ THAY ĐỔI ĐỊA ĐIỂM SINH HOẠT TÔN GIÁO TẬP TRUNG TRONG ĐỊA BÀN MỘT XÃ (CẤP XÃ)", "field": "Tín ngưỡng, tôn giáo (Dân tộc và Tôn giáo)", "form": "" },
+  { "stt": 317, "name": "THỦ TỤC ĐỀ NGHỊ TỔ CHỨC ĐẠI HỘI CỦA TỔ CHỨC TÔN GIÁO, TỔ CHỨC TÔN GIÁO TRỰC THUỘC, TỔ CHỨC ĐƯỢC CẤP CHỨNG NHẬN ĐĂNG KÝ HOẠT ĐỘNG TÔN GIÁO CÓ ĐỊA BÀN HOẠT ĐỘNG Ở MỘT XÃ", "field": "Tín ngưỡng, tôn giáo (Dân tộc và Tôn giáo)", "form": "" },
+  { "stt": 318, "name": "THỦ TỤC ĐỀ NGHỊ TỔ CHỨC CUỘC LỄ NGOÀI CƠ SỞ TÔN GIÁO, ĐỊA ĐIỂM HỢP PHÁP ĐÃ ĐĂNG KÝ CÓ QUY MÔ TỔ CHỨC Ở MỘT XÃ", "field": "Tín ngưỡng, tôn giáo (Dân tộc và Tôn giáo)", "form": "" },
+  { "stt": 319, "name": "THỦ TỤC ĐỀ NGHỊ GIẢNG ĐẠO NGOÀI ĐỊA BÀN PHỤ TRÁCH, CƠ SỞ TÔN GIÁO, ĐỊA ĐIỂM HỢP PHÁP ĐÃ ĐĂNG KÝ CÓ QUY MÔ TỔ CHỨC TRONG MỘT XÃ", "field": "Tín ngưỡng, tôn giáo (Dân tộc và Tôn giáo)", "form": "" },
+  { "stt": 320, "name": "Tuyển chọn Tổ viên Tổ bảo vệ an ninh, trật tự", "field": "Tổ chức, cán bộ (Bộ Công an)", "form": "" },
+  { "stt": 321, "name": "Thông báo chấm dứt hoạt động của tổ hợp tác", "field": "Thành lập và hoạt động của tổ hợp tác (Bộ Tài chính)", "form": "" },
+  { "stt": 322, "name": "Thông báo thành lập/thay đổi tổ hợp tác", "field": "Thành lập và hoạt động của tổ hợp tác (Bộ Tài chính)", "form": "" },
+  { "stt": 323, "name": "Đăng ký thành lập hợp tác xã, liên hiệp hợp tác xã; đăng ký chuyển đổi tổ hợp tác thành hợp tác xã; đăng ký khi hợp tác xã, liên hiệp hợp tác xã chia, tách, hợp nhất", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 324, "name": "Đăng ký hoạt động chi nhánh, văn phòng đại diện, thông báo địa điểm kinh doanh", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 325, "name": "Đăng ký thay đổi nội dung đăng ký hợp tác xã, liên hiệp hợp tác xã; Đăng ký thay đổi nội dung đối với trường hợp hợp tác xã, liên hiệp hợp tác xã bị tách, nhận sáp nhập", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 326, "name": "Đăng ký thay đổi nội dung đăng ký hoạt động của chi nhánh, văn phòng đại diện, địa điểm kinh doanh của hợp tác xã, liên hiệp hợp tác xã", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 327, "name": "Chấm dứt hoạt động chi nhánh, văn phòng đại diện, địa điểm kinh doanh của hợp tác xã, liên hiệp hợp tác xã", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 328, "name": "Cấp đổi Giấy chứng nhận đăng ký hợp tác xã, liên hiệp hợp tác xã", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 329, "name": "Cấp lại Giấy chứng nhận đăng ký hợp tác xã, Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện, Giấy chứng nhận đăng ký địa điểm kinh doanh của hợp tác xã, liên hiệp hợp tác xã", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 330, "name": "Đăng ký giải thể hợp tác xã, liên hiệp hợp tác xã", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 331, "name": "Thông báo thay đổi nội dung đăng ký hợp tác xã, liên hiệp hợp tác xã; Thông báo thay đổi nội dung đăng ký đối với hợp tác xã, liên hiệp hợp tác xã bị tách, nhận sáp nhập", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 332, "name": "Thông báo về việc thành lập doanh nghiệp của hợp tác xã, liên hiệp hợp tác xã", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 333, "name": "Thông báo tạm ngừng kinh doanh/ tiếp tục kinh doanh trở lại đối với hợp tác xã, liên hiệp hợp tác xã, chi nhánh, văn phòng đại diện, địa điểm kinh doanh", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 334, "name": "Đăng ký thay đổi nội dung đăng ký tổ hợp tác", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 335, "name": "Hiệu đính, cập nhật, bổ sung thông tin đăng ký tổ hợp tác", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 336, "name": "Thông báo tạm ngừng kinh doanh, tiếp tục kinh doanh trở lại đối với tổ hợp tác", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 337, "name": "Chấm dứt hoạt động tổ hợp tác", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 338, "name": "Dừng thực hiện thủ tục đăng ký tổ hợp tác", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 339, "name": "Dừng thực hiện thủ tục giải thể hợp tác xã, liên hiệp hợp tác xã", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 340, "name": "Thông báo lập chi nhánh, văn phòng đại diện ở nước ngoài", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 341, "name": "Thông báo bổ sung, cập nhật thông tin trong hồ sơ đăng ký hợp tác xã, liên hiệp hợp tác xã", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 342, "name": "Đề nghị thay đổi tên tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã, chi nhánh, văn phòng đại diện, địa điểm kinh doanh của hợp tác xã, liên hiệp hợp tác xã do xâm phạm quyền sở hữu công nghiệp", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 343, "name": "Đề nghị thu hồi Giấy chứng nhận đăng ký tổ hợp tác, Giấy chứng nhận đăng ký hợp tác xã, Giấy chứng nhận đăng ký chi nhánh, văn phòng đại diện đối với trường hợp nội dung kê khai trong hồ sơ đăng ký thành lập là giả mạo", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 344, "name": "Đăng ký thành lập tổ hợp tác; đăng ký tổ hợp tác trong trường hợp đã được thành lập trước ngày Luật Hợp tác xã có hiệu lực thi hành, thuộc đối tượng phải đăng ký theo quy định tại khoản 2 Điều 107 Luật Hợp tác xã 2023", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 345, "name": "Cấp lại Giấy chứng nhận đăng ký tổ hợp tác do bị mất, cháy, rách, nát hoặc bị tiêu hủy", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 346, "name": "Dừng thực hiện thủ tục đăng ký hợp tác xã, liên hiệp hợp tác xã", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 347, "name": "Hiệu đính, cập nhật, bổ sung thông tin đăng ký hợp tác xã, liên hiệp hợp tác xã", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 348, "name": "Hiệu đính, cập nhật, bổ sung thông tin đăng ký chi nhánh, văn phòng đại diện, địa điểm kinh doanh của hợp tác xã, liên hiệp hợp tác xã", "field": "Thành lập và hoạt động của tổ hợp tác, hợp tác xã, liên hiệp hợp tác xã (Bộ Tài chính)", "form": "" },
+  { "stt": 349, "name": "Đăng ký thành lập hộ kinh doanh", "field": "Thành lập và hoạt động doanh nghiệp (hộ kinh doanh) (Bộ Tài chính)", "form": "" },
+  { "stt": 350, "name": "Đăng ký thay đổi nội dung đăng ký hộ kinh doanh", "field": "Thành lập và hoạt động doanh nghiệp (hộ kinh doanh) (Bộ Tài chính)", "form": "" },
+  { "stt": 351, "name": "Tạm ngừng kinh doanh, tiếp tục kinh doanh trước thời hạn đã thông báo của hộ kinh doanh", "field": "Thành lập và hoạt động doanh nghiệp (hộ kinh doanh) (Bộ Tài chính)", "form": "" },
+  { "stt": 352, "name": "Chấm dứt hoạt động hộ kinh doanh", "field": "Thành lập và hoạt động doanh nghiệp (hộ kinh doanh) (Bộ Tài chính)", "form": "" },
+  { "stt": 353, "name": "Cấp lại Giấy chứng nhận đăng ký hộ kinh doanh, Cấp đổi sang Giấy chứng nhận đăng ký hộ kinh doanh", "field": "Thành lập và hoạt động doanh nghiệp (hộ kinh doanh) (Bộ Tài chính)", "form": "" },
+  { "stt": 354, "name": "Thủ tục công nhận câu lạc bộ thể thao cơ sở", "field": "Thể dục thể thao (Bộ Văn hóa, Thể thao và Du lịch)", "form": "" },
+  { "stt": 355, "name": "Tặng, truy tặng “Huy chương Thanh niên xung phong vẻ vang” cho cá nhân theo công trạng", "field": "Thi đua - khen thưởng (Bộ Nội vụ)", "form": "" },
+  { "stt": 356, "name": "Xét tuyển sinh vào trường phổ thông dân tộc nội trú", "field": "Thi, tuyển sinh (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 357, "name": "Hỗ trợ đầu tư xây dựng phát triển thủy lợi nhỏ, thuỷ lợi nội đồng và tưới tiên tiến, tiết kiệm nước (Đối với nguồn vốn hỗ trợ trực tiếp, ngân sách địa phương và nguồn vốn hợp pháp khác của địa phương phân bổ dự toán cho UBND cấp xã thực hiện)", "field": "Thủy lợi (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 358, "name": "Phê duyệt, công bố công khai quy trình vận hành đối với công trình thủy lợi lớn và công trình thủy lợi vừa do UBND cấp tỉnh phân cấp", "field": "Thủy lợi (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 359, "name": "Thẩm định, phê duyệt phương án ứng phó với tình huống khẩn cấp thuộc thẩm quyền của UBND cấp xã", "field": "Thủy lợi (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 360, "name": "Thẩm định, phê duyệt phương án ứng phó thiên tai cho công trình, vùng hạ du đập trong quá trình thi công thuộc thẩm quyền của UBND cấp xã", "field": "Thủy lợi (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 361, "name": "Phê duyệt đề cương, kết quả kiểm định an toàn đập, hồ chứa thủy lợi thuộc thẩm quyền của Chủ tịch UBND cấp xã", "field": "Thủy lợi (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 362, "name": "Phê duyệt, công bố công khai quy trình vận hành hồ chứa thủy lợi thuộc thẩm quyền của Chủ tịch UBND cấp xã", "field": "Thủy lợi (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 363, "name": "Phê duyệt phương án bảo vệ đập, hồ chứa nước trên địa bàn do Ủy ban nhân dân cấp tỉnh phân cấp", "field": "Thủy lợi (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 364, "name": "Công nhận và giao quyền quản lý cho tổ chức cộng đồng (thuộc địa bàn quản lý)", "field": "Thủy sản (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 365, "name": "Sửa đổi, bổ sung nội dung quyết định công nhận và giao quyền quản lý cho tổ chức cộng đồng (thuộc địa bàn quản lý)", "field": "Thủy sản (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 366, "name": "Công bố mở cảng cá loại III", "field": "Thủy sản (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 367, "name": "Chấm dứt việc chăm sóc thay thế cho trẻ em", "field": "Trẻ em (Bộ Y tế)", "form": "" },
+  { "stt": 368, "name": "Áp dụng các biện pháp can thiệp khẩn cấp hoặc tạm thời cách ly trẻ em khỏi môi trường hoặc người gây tổn hại cho trẻ em", "field": "Trẻ em (Bộ Y tế)", "form": "" },
+  { "stt": 369, "name": "Phê duyệt kế hoạch hỗ trợ, can thiệp đối với trẻ em bị xâm hại hoặc có nguy cơ bị bạo lực, bóc lột, bỏ rơi và trẻ em có hoàn cảnh đặc biệt", "field": "Trẻ em (Bộ Y tế)", "form": "" },
+  { "stt": 370, "name": "Thông báo nhận chăm sóc thay thế cho trẻ em đối với cá nhân, người đại diện gia đình nhận chăm sóc thay thế là người thân thích của trẻ em", "field": "Trẻ em (Bộ Y tế)", "form": "" },
+  { "stt": 371, "name": "Đăng ký nhận chăm sóc thay thế cho trẻ em đối với cá nhân, người đại diện gia đình nhận chăm sóc thay thế không phải là người thân thích của trẻ em", "field": "Trẻ em (Bộ Y tế)", "form": "" },
+  { "stt": 372, "name": "Chuyển trẻ em đang được chăm sóc thay thế tại cơ sở trợ giúp xã hội đến cá nhân, gia đình nhận chăm sóc thay thế", "field": "Trẻ em (Bộ Y tế)", "form": "" },
+  { "stt": 373, "name": "Chuyển đổi cơ cấu cây trồng, vật nuôi trên đất trồng lúa", "field": "Trồng trọt (Bộ Nông nghiệp và Môi trường)", "form": "" },
+  { "stt": 374, "name": "Cấp bản sao văn bằng, chứng chỉ từ sổ gốc (tại cấp xã)", "field": "Văn bằng, chứng chỉ (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 375, "name": "Chỉnh sửa nội dung văn bằng, chứng chỉ (tại cấp xã)", "field": "Văn bằng, chứng chỉ (Bộ Giáo dục và Đào tạo)", "form": "" },
+  { "stt": 376, "name": "Thủ tục thông báo tổ chức lễ hội cấp xã", "field": "Văn hóa (Bộ Văn hóa, Thể thao và Du lịch)", "form": "" },
+  { "stt": 377, "name": "Thủ tục tiếp nhận hồ sơ đăng ký lễ hội quy mô cấp xã", "field": "Văn hóa (Bộ Văn hóa, Thể thao và Du lịch)", "form": "" },
+  { "stt": 378, "name": "Thủ tục xử lý đơn tại cấp xã", "field": "Xử lý đơn thư (Thanh tra Chính phủ)", "form": "" }
+  // add more sample rows for demo
+];
+let procFiltered = procedures.slice();
+let currentPage = 1;
+let rowsPerPage = 5;
+
+function initProcedures(){
+  // bind controls
+  document.getElementById('filter-field').addEventListener('input', ()=>{ currentPage=1; applyProcFilter(); });
+  document.getElementById('filter-key').addEventListener('input', ()=>{ currentPage=1; applyProcFilter(); });
+  document.getElementById('rowsPerPage').addEventListener('change', (e)=>{ rowsPerPage = parseInt(e.target.value); currentPage=1; renderProcedures(); });
+  applyProcFilter();
+}
+
+function applyProcFilter(){
+  const f = document.getElementById('filter-field').value.trim().toLowerCase();
+  const k = document.getElementById('filter-key').value.trim().toLowerCase();
+  procFiltered = procedures.filter(p=> (!f || p.field.toLowerCase().includes(f)) && (!k || p.name.toLowerCase().includes(k)) );
+  renderProcedures();
+}
+
+function renderProcedures(){
+  const tbody = document.getElementById('procedures-tbody');
+  tbody.innerHTML = '';
+  const total = procFiltered.length;
+  const totalPages = Math.max(1, Math.ceil(total / rowsPerPage));
+  if(currentPage > totalPages) currentPage = totalPages;
+  const start = (currentPage - 1) * rowsPerPage;
+  const pageItems = procFiltered.slice(start, start + rowsPerPage);
+  pageItems.forEach((p,idx)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${start + idx + 1}</td><td>${escapeHtml(p.name)}</td><td>${escapeHtml(p.field)}</td><td>${p.form? `<a href="${p.form}" target="_blank">Xem</a>`:'Liên hệ'}</td>`;
+    tbody.appendChild(tr);
+  });
+  // pager
+  const pagerPages = document.getElementById('pager-pages');
+  pagerPages.innerHTML = '';
+  const pagerInfo = document.getElementById('pager-info');
+  pagerInfo.innerText = `Hiển thị ${Math.min(total, start+1)}–${Math.min(total,start+rowsPerPage)} trong ${total} kết quả`;
+  // pages buttons (show up to 7)
+  const maxButtons = 7;
+  const half = Math.floor(maxButtons/2);
+  let from = Math.max(1, currentPage - half);
+  let to = Math.min(totalPages, from + maxButtons - 1);
+  if(to - from < maxButtons - 1) from = Math.max(1, to - maxButtons + 1);
+  for(let i=from;i<=to;i++){
+    const b = document.createElement('button');
+    b.textContent = i;
+    b.className = 'pager-btn';
+    b.style.padding = '6px 10px';
+    b.style.borderRadius = '6px';
+    b.style.border = i===currentPage ? '1px solid var(--accent)' : '1px solid rgba(0,0,0,0.06)';
+    b.style.background = i===currentPage ? 'linear-gradient(90deg,var(--accent),#0680e8)' : '#fff';
+    b.style.color = i===currentPage ? '#fff' : '#111';
+    b.onclick = ()=>{ currentPage = i; renderProcedures(); };
+    pagerPages.appendChild(b);
+  }
+}
+
+function prevPage(){ if(currentPage>1){ currentPage--; renderProcedures(); } }
+function nextPage(){ const total = procFiltered.length; const totalPages = Math.max(1, Math.ceil(total / rowsPerPage)); if(currentPage<totalPages){ currentPage++; renderProcedures(); } }
+
+/* =========================
+   HOTLINE quick search (demo + placeholder)
+   ========================= */
+function hotlineSearch(){
+  const q = document.getElementById('hotline-q').value.trim().toLowerCase();
+  if(!q){ alert('Nhập từ khóa tìm kiếm'); return; }
+  if(q.includes('nha trang') || q.includes('khánh hòa')) {
+    document.getElementById('hotline-result').innerText = 'Kết quả (ví dụ): Số liên hệ UBND tỉnh Khánh Hòa: 0258 3820 109';
+    return;
+  }
+  document.getElementById('hotline-result').innerText = 'Đang tìm... (hàm gọi API chính thức nếu cấu hình)';
+  // placeholder - integrate your backend API to query official sources
+  setTimeout(()=>{ document.getElementById('hotline-result').innerText = 'Không tìm thấy kết quả chính thức (demo).'; }, 700);
+}
+
+/* =========================
+   CHATBOT: local Q&A, history, admin modal
+   ========================= */
+const QA_KEY = 'sumhop_qa_v1';
+const CHAT_KEY = 'sumhop_chat_v1';
+const defaultQA = [
+  {q:'làm căn cước công dân ở đâu', a:'Bạn có thể làm căn cước công dân, VNeID mức 2 tại Công an phường Tây Nha Trang, địa chỉ số 176 Thống Nhất.'},
+  {q:'giờ làm việc', a:'Giờ làm việc: 7:30–11:30 và 13:30–16:30, Thứ Hai–Thứ Sáu và sáng Thứ Bảy hàng tuần.'},
+  {q:'giấy tờ cần khi cấp giấy chứng nhận', a:'Thường gồm: CCCD/Hộ chiếu/VNeID, tờ khai theo mẫu và các tài liệu liên quan.'},
+  {q:'cấp giấy Vệ sinh an toàn thực phẩm', a:'Liên hệ Quầy số 5 để được hướng dẫn.'},
+  {q:'nộp hồ sơ ở đâu', a:'Nộp trực tiếp tại Trung tâm phục vụ hành chính công hoặc qua Cổng dịch vụ công Quốc gia.'},
+  {q:'lấy số hồ sơ', a:'Lấy số trực tiếp tại Trung tâm PVHCC hoặc qua hệ thống xếp hàng nếu có.'},
+  {q:'liên hệ phản ánh', a:'Gọi đường dây nóng hoặc gửi email/phản ánh trên hệ thống phản ánh kiến nghị.'},
+  {q:'tra cứu hồ sơ', a:'Truy cập cổng dịch vụ công quốc gia và nhập mã hồ sơ để tra cứu tiến trình.'},
+  {q:'xin giấy phép xây dựng', a:'Nộp hồ sơ tại bộ phận một cửa kèm theo bản vẽ và giấy tờ có liên quan.'},
+  {q:'thời gian xử lý hồ sơ', a:'Tùy thủ tục; nhiều thủ tục có quy định cụ thể (7, 15, 30 ngày).'}
+];
+
+function loadQA(){ const s=localStorage.getItem(QA_KEY); return s?JSON.parse(s):defaultQA.slice(); }
+function saveQA(a){ localStorage.setItem(QA_KEY, JSON.stringify(a)); }
+function loadChat(){ const s=localStorage.getItem(CHAT_KEY); return s?JSON.parse(s):[]; }
+function saveChat(a){ localStorage.setItem(CHAT_KEY, JSON.stringify(a)); }
+
+function initChat(){
+  const chatToggle = document.getElementById('chatToggle');
+  const chatPanel = document.getElementById('chatPanel');
+  chatToggle.addEventListener('click', ()=>{ chatPanel.classList.toggle('hidden'); const hidden = chatPanel.classList.contains('hidden'); chatPanel.setAttribute('aria-hidden', hidden?'true':'false'); if(!hidden) renderChat(); });
+  document.getElementById('closeChat').addEventListener('click', ()=>{ chatPanel.classList.add('hidden'); chatPanel.setAttribute('aria-hidden','true'); });
+  document.getElementById('chatSend').addEventListener('click', sendChatMessage);
+  document.getElementById('chatInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); sendChatMessage(); } });
+  document.getElementById('openAdmin').addEventListener('click', ()=>{ openQaModal(); });
+  // QA modal controls
+  document.getElementById('closeQa').addEventListener('click', ()=>{ document.getElementById('qaModal').style.display='none'; });
+  document.getElementById('addQaBtn').addEventListener('click', addQaItem);
+  renderQAList();
+  renderChat();
+}
+
+function renderChat(){
+  const body = document.getElementById('chatBody');
+  body.innerHTML = '';
+  const hist = loadChat();
+  if(!hist.length){ body.innerHTML = '<div class="small">Xin chào! Tôi là trợ lý ảo. Bạn có thể hỏi về thủ tục, biểu mẫu, giờ làm việc...</div>'; return; }
+  hist.forEach(m=>{
+    const d = document.createElement('div');
+    d.className = 'msg ' + (m.role==='user'?'user':'bot');
+    d.innerHTML = `<div class="bubble ${m.role==='user'?'user':''}">${escapeHtml(m.text)}<div class="time">${new Date(m.ts).toLocaleString()}</div></div>`;
+    body.appendChild(d);
+  });
+  body.scrollTop = body.scrollHeight;
+}
+
+async function sendChatMessage(){
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  // append user
+  const hist = loadChat(); hist.push({role:'user', text, ts:new Date().toISOString()}); saveChat(hist); renderChat();
+  input.value='';
+  // show temporary bot typing
+  const hist2 = loadChat(); hist2.push({role:'bot', text:'Đang tìm...'}); saveChat(hist2); renderChat();
+  // answer
+  const ans = await answerQuery(text);
+  // replace last bot msg
+  const h = loadChat();
+  for(let i=h.length-1;i>=0;i--){ if(h[i].role==='bot'){ h[i].text = ans; break; } }
+  saveChat(h); renderChat();
+}
+
+async function answerQuery(q){
+  const norm = q.trim().toLowerCase();
+  const qa = loadQA();
+  // exact or contains
+  let found = qa.find(x => x.q.trim().toLowerCase() === norm);
+  if(!found) found = qa.find(x => norm.includes(x.q.trim().toLowerCase()) || x.q.trim().toLowerCase().split(' ').some(t=> t && norm.includes(t)) );
+  if(found) return found.a;
+  // placeholder: call official API if configured (not implemented here)
+  // fallback
+  return 'Xin lỗi, tôi chưa tìm thấy thông tin chính xác. Vui lòng mô tả rõ hơn hoặc gọi đường dây nóng.';
+}
+
+/* QA modal functions */
+function openQaModal(){ document.getElementById('qaModal').style.display='block'; renderQAList(); }
+function addQaItem(){
+  const q = document.getElementById('qaQ').value.trim();
+  const a = document.getElementById('qaA').value.trim();
+  if(!q||!a){ alert('Nhập câu hỏi và trả lời'); return; }
+  const arr = loadQA(); arr.unshift({q:aNormalize(q), a}); saveQA(arr); document.getElementById('qaQ').value=''; document.getElementById('qaA').value=''; renderQAList(); alert('Đã thêm Q&A (lưu cục bộ)');
+}
+function renderQAList(){
+  const wrap = document.getElementById('qaList'); const arr = loadQA();
+  wrap.innerHTML = arr.map((it,idx)=>`<div style="padding:8px;border-bottom:1px solid #f0f6ff;display:flex;justify-content:space-between;align-items:center"><div><strong>${escapeHtml(it.q)}</strong><div class="small" style="margin-top:6px">${escapeHtml(it.a)}</div></div><div style="display:flex;flex-direction:column;gap:6px"><button class="back-btn" onclick="deleteQA(${idx})">Xóa</button><button class="back-btn" onclick="copyQA(${idx})">Sửa</button></div></div>`).join('');
+}
+function deleteQA(i){ const arr = loadQA(); arr.splice(i,1); saveQA(arr); renderQAList(); }
+function copyQA(i){ const arr = loadQA(); document.getElementById('qaQ').value = arr[i].q; document.getElementById('qaA').value = arr[i].a; }
+function aNormalize(s){ return s.trim().toLowerCase(); }
+
+/* small helper */
+function escapeHtml(s){ if(s===null||s===undefined) return ''; return String(s).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+</script>
+
+</body>
+</html>
