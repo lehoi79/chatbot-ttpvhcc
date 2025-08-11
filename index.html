@@ -790,7 +790,10 @@ const defaultQA = [
   {q:'liên hệ phản ánh', a:'Gọi đường dây nóng hoặc gửi email/phản ánh trên hệ thống phản ánh kiến nghị.'},
   {q:'tra cứu hồ sơ', a:'Truy cập cổng dịch vụ công quốc gia và nhập mã hồ sơ để tra cứu tiến trình.'},
   {q:'xin giấy phép xây dựng', a:'Nộp hồ sơ tại bộ phận một cửa kèm theo bản vẽ và giấy tờ có liên quan.'},
-  {q:'thời gian xử lý hồ sơ', a:'Tùy thủ tục; nhiều thủ tục có quy định cụ thể (7, 15, 30 ngày).'}
+  {q:'thời gian xử lý hồ sơ', a:'Tùy thủ tục; nhiều thủ tục có quy định cụ thể (7, 15, 30 ngày).'},
+  {q:'Hi, Xin chào', a:'Hi, anh/chị cần tôi hỗ trợ nội dung gì.'},
+   {q:'Bạn có thể giúp tôi nội dung gì', a:'Tôi có thể giúp anh/chị tìm kiếm thủ tục hành chính, nộp hồ sơ trực tuyến và hướng dẫn mình khai thông tin trong trờ khai ạ.'},
+   {q:'thời gian xử lý hồ sơ', a:'Tùy thủ tục; nhiều thủ tục có quy định cụ thể (7, 15, 30 ngày).'},
 ];
 function loadQA(){ const s=localStorage.getItem(QA_KEY); return s?JSON.parse(s):defaultQA.slice(); }
 function saveQA(a){ localStorage.setItem(QA_KEY, JSON.stringify(a)); }
@@ -893,10 +896,10 @@ function loadGptConfig(){
   document.getElementById('gptModel').value = localStorage.getItem('gptModel') || 'gpt-3.5-turbo';
 }
 
-/* ChatGPT API integration (commented out) */
-  /*
+//ChatGPT API integration (commented out)/
+  
   async function callChatGPT(query) {
-    const apiKey = localStorage.getItem('gptApiKey');
+    const apiKey = localStorage.getItem('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');
     const model = localStorage.getItem('gptModel') || 'gpt-3.5-turbo';
     if (!apiKey) return 'Chưa cấu hình API Key.';
     try {
@@ -917,7 +920,6 @@ function loadGptConfig(){
       return 'Lỗi gọi API GPT: ' + err.message;
     }
   }
-  */
 </script>
 </body>
 </html>
