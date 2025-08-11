@@ -690,7 +690,7 @@ function initSurvey(){
     const v = validateSurvey(s);
     if(!v.ok){ alert(v.msg); return; }
     const arr = loadSurveys(); arr.push(s); localStorage.setItem(SURV_KEY, JSON.stringify(arr));
-    fetch("https://script.google.com/macros/s/AKfycbxF_hHxnV-XYR3LVb3FZyAoA_bkKSv5X_ubc2lBjN9LD5XrY-AHc60DUI21hPr4HJIS/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbxB4LKiANpXnnZpp6ugrJzQ38p_1ssQz7pB0DcdahiVMhH6kl9yVG_X6TpZGbK690Lg/exec", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(s)
