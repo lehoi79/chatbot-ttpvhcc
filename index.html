@@ -111,7 +111,7 @@ header .logo-wrap{margin-left:20px;flex:0 0 auto;margin-right:12px}
       <div class="card" role="listitem" onclick="navigate('survey')">
         <div class="emoji">📝</div>
         <h3>Phiếu đánh giá</h3>
-        <p>16 Quầy.</p>
+        <p>10 Quầy.</p>
       </div>
       <div class="card" role="listitem" onclick="navigate('procedures')">
         <div class="emoji">📁</div>
@@ -167,10 +167,10 @@ header .logo-wrap{margin-left:20px;flex:0 0 auto;margin-right:12px}
       <p class="small">Chọn điểm cho từng Mức độ (1 = Không hài lòng, 2 = Hài lòng, 3 = Rất hài lòng). Dữ liệu lưu local trên trình duyệt.</p>
       <div id="survey-form" style="margin-top:10px"></div>
       <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <input id="sv-name" class="search" placeholder="Họ tên (không bắt buộc)">
-        <input id="sv-phone" class="search" placeholder="SĐT (không bắt buộc)">
+        <input id="sv-name" class="search" placeholder="Họ tên (bắt buộc)">
+        <input id="sv-phone" class="search" placeholder="SĐT (bắt buộc)">
         <input id="sv-date" class="search" type="date" title="Ngày đánh giá">
-        <button class="back-btn" id="save-survey">Lưu</button>
+        <button class="back-btn" id="save-survey">Lưu & Gửi</button>
         <button class="back-btn" id="view-surveys">Xem danh sách</button>
       </div>
       <div id="surveys-list" style="margin-top:12px;display:none"></div>
@@ -690,10 +690,14 @@ function initSurvey(){
     const v = validateSurvey(s);
     if(!v.ok){ alert(v.msg); return; }
     const arr = loadSurveys(); arr.push(s); localStorage.setItem(SURV_KEY, JSON.stringify(arr));
-    fetch("https://script.google.com/macros/s/AKfycbwhMzfoEiArDkdKI9_KOlK2aWHVBOnuc9VFoC-z7TzOPnAfidQWnRRXeOPa2UDjxkA9/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbwLK5VQXnLBzWcjJ3VUKRlnrkj0c8OsnJOAnvdbbXQqpo3v7WAgUiKzHwadPI6OWmHq/exec", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(s)
+      body: JSON.stringify({
+    name: "Nguyễn Văn A",
+    email: "a@gmail.com",
+    message: "Xin chào"
+  })
     })
     .then(res => res.text())
     .then(() => alert('Đã lưu và gửi đánh giá. Cảm ơn bạn!'))
