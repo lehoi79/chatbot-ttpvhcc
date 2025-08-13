@@ -259,6 +259,16 @@ header .logo-wrap{margin-left:20px;flex:0 0 auto;margin-right:12px}
       <button class="back-btn" id="saveGptConfig">Lưu</button>
     </div>
   </div>
+  <div style="margin-top:10px;padding:8px;border:1px solid #eef4fb;border-radius:8px;background:#fbfdff">
+    <strong>Kết nối Google Sheets</strong>
+    <div class="small" style="margin-top:6px">Dán URL Web App của Google Apps Script để ghi phiếu khảo sát trực tiếp vào Google Sheets.</div>
+    <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <input id="appsScriptUrlInput" class="search" placeholder="https://script.google.com/macros/s/XXXXX/exec" style="flex:1">
+      <button class="back-btn" id="saveAppsScriptUrl">Lưu</button>
+    </div>
+    <div class="small" style="margin-top:6px;color:#6b7280">Gợi ý triển khai: Apps Script nhận POST (no-cors) với JSON và lưu vào Sheet. Không cần bật xác thực.</div>
+  </div>
+
   <div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end"><button class="back-btn" id="exportQa">Xuất Q&A</button></div>
 </div>
 
@@ -684,7 +694,32 @@ function initSurvey(){
     <div class="criterion"><h4>${i+1}. ${c}</h4>
       <div class="radio-row">${[1,2,3].map(v=>`<label class="small"><input type="radio" name="crit${i}" value="${v}"> ${v}</label>`).join('')}</div>
     </div>`).join('') + '</div><div style="margin-top:8px"><textarea id="sv-comment" rows="3" style="width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef7" placeholder="Ý kiến (không bắt buộc)"></textarea></div>';
-  if(!document.getElementById('sv-date').value) document.getElementById('sv-date').value = new Date().toISOString().slice(0,10);
+  
+  // Thêm chú thích thang điểm và thay nhãn 1/2/3 -> kèm ý nghĩa
+  try {
+    // Chú thích
+    if (!document.getElementById('survey-legend')) {
+      const legend = document.createElement('div');
+      legend.id = 'survey-legend';
+      legend.className = 'small';
+      legend.style.cssText = 'margin:8px 0 14px;color:#6b7280';
+      legend.textContent = 'Chú thích: 1 - Không hài lòng   •   2 - Hài lòng   •   3 - Rất hài lòng';
+      wrap.prepend(legend);
+    }
+    // Đổi nhãn
+    const labelText = { '1':'1 - Không hài lòng', '2':'2 - Hài lòng', '3':'3 - Rất hài lòng' };
+    wrap.querySelectorAll('.radio-row label').forEach(function(lbl){
+      const input = lbl.querySelector('input');
+      if (!input) return;
+      const v = String(input.value);
+      // Giữ input, thay phần text
+      const oldInput = input;
+      lbl.innerHTML = '';
+      lbl.appendChild(oldInput);
+      lbl.append(document.createTextNode(' ' + (labelText[v] || v)));
+    });
+  } catch(e) {}
+if(!document.getElementById('sv-date').value) document.getElementById('sv-date').value = new Date().toISOString().slice(0,10);
   document.getElementById('save-survey').addEventListener('click', ()=>{
     const s = collectSurvey();
     const v = validateSurvey(s);
@@ -837,6 +872,17 @@ function initChat(){
     localStorage.setItem('gptModel', document.getElementById('gptModel').value);
     alert('Đã lưu cấu hình GPT API.');
   });
+  const appsInp = document.getElementById('appsScriptUrlInput');
+  const appsBtn = document.getElementById('saveAppsScriptUrl');
+  if (appsInp) { appsInp.value = localStorage.getItem('appsScriptUrl') || ''; }
+  if (appsBtn) {
+    appsBtn.addEventListener('click', () => {
+      const v = (appsInp.value || '').trim();
+      localStorage.setItem('appsScriptUrl', v);
+      alert('Đã lưu URL Google Apps Script.');
+    });
+  }
+
   loadGptConfig();
   renderQAList();
   renderChat();
@@ -903,6 +949,18 @@ function loadGptConfig(){
   document.getElementById('gptModel').value = localStorage.getItem('gptModel') || 'gpt-3.5-turbo';
 }
 
+
+function getAppsScriptUrl(){
+  // Ưu tiên URL lưu trong localStorage
+  const fromLocal = (localStorage.getItem('appsScriptUrl')||'').trim();
+  if (fromLocal) return fromLocal;
+  // Nếu chưa có, thử dò trong HTML (nếu người dùng có dán sẵn)
+  const m = (document.body.innerHTML.match(/https:\/\/script\.google\.com\/macros\/s\/[^"']+/) || [])[0];
+  if (m) return m;
+  // Mặc định (cần thay thế bằng Web App URL của Google Apps Script)
+  return 'YOUR_APPS_SCRIPT_URL';
+}
+
 //ChatGPT API integration (commented out)/
   
   async function callChatGPT(query) {
@@ -963,7 +1021,7 @@ function loadGptConfig(){
 
     // Try to reuse an existing Apps Script URL in the page if present
     const m = (document.body.innerHTML.match(/https:\/\/script\.google\.com\/macros\/s\/[^"']+/) || [])[0];
-    const url = m || "YOUR_APPS_SCRIPT_URL";
+    const url = getAppsScriptUrl();
 
     fetch(url, {
       method: "POST",
