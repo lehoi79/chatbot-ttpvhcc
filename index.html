@@ -698,7 +698,7 @@ function initSurvey(){
       rating: (s.scores||[]).map(v => (v==null ? "" : v)).join(","),
       note: s.comment || ""
     };
-    fetch("https://script.google.com/macros/s/AKfycbwMlUwpQ_aHiouexRxa67B_yQG4ZeX6g2_awlKjOK_LV5lD6ZjMTiZ4mQhEBX1Bl1h1/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbxG-72h4Ba4VKilB5O5n6K7pkVgte_5GXLyoQWp5t5De8g8-E09wjFmo_wDaDtpyGue/exec", {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
