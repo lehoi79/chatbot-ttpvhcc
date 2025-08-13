@@ -690,20 +690,23 @@ function initSurvey(){
     const v = validateSurvey(s);
     if(!v.ok){ alert(v.msg); return; }
     const arr = loadSurveys(); arr.push(s); localStorage.setItem(SURV_KEY, JSON.stringify(arr));
-    fetch("https://script.google.com/macros/s/AKfycbwLK5VQXnLBzWcjJ3VUKRlnrkj0c8OsnJOAnvdbbXQqpo3v7WAgUiKzHwadPI6OWmHq/exec", {
+    
+    const payload = {
+      fullname: s.name || "",
+      phone: s.phone || "",
+      date: s.date || "",
+      rating: (s.scores||[]).map(v => (v==null ? "" : v)).join(","),
+      note: s.comment || ""
+    };
+    fetch("https://script.google.com/macros/s/AKfycbyvgNNEy1vESklHmNNKks9YbvnS3NdtUyOY-GY_SkivDYWDVBZTmEnSlIO9uVkC9nDo/exec", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-    name: "Nguyễn Văn A",
-    email: "a@gmail.com",
-    message: "Xin chào"
-  })
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
     })
-    .then(res => res.text())
-    .then(() => alert('Đã lưu và gửi đánh giá. Cảm ơn bạn!'))
-    .catch(() => alert('Lỗi khi gửi đánh giá tới Google Sheets. Dữ liệu đã lưu cục bộ.'));
-    for(let i=0;i<criteria.length;i++){ const rs = document.getElementsByName('crit'+i); rs.forEach(r=>r.checked=false); }
-    document.getElementById('sv-comment').value='';
+    .then(() => alert('Đã lưu & gửi đánh giá. Cảm ơn bạn!'))
+    .catch(() => alert('Không thể gửi lên Google Sheets. Dữ liệu đã lưu cục bộ.'));
+document.getElementById('sv-comment').value='';
     document.getElementById('sv-name').value='';
     document.getElementById('sv-phone').value='';
     document.getElementById('sv-date').value = new Date().toISOString().slice(0,10);
@@ -925,45 +928,5 @@ function loadGptConfig(){
     }
   }
 </script>
-
-<script>
-function guiDanhGia() {
-    const fullname = document.getElementById("sv-name") ? document.getElementById("sv-name").value.trim() : "";
-    const phone = document.getElementById("sv-phone") ? document.getElementById("sv-phone").value.trim() : "";
-    const date = document.getElementById("sv-date") ? document.getElementById("sv-date").value : "";
-    const note = document.getElementById("sv-note") ? document.getElementById("sv-note").value.trim() : "";
-
-    let ratings = [];
-    for (let i = 1; i <= 10; i++) {
-        let sel = document.querySelector('input[name="q' + i + '"]:checked');
-        ratings.push(sel ? sel.value : "");
-    }
-
-    fetch("https://script.google.com/macros/s/AKfycbyvgNNEy1vESklHmNNKks9YbvnS3NdtUyOY-GY_SkivDYWDVBZTmEnSlIO9uVkC9nDo/exec", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            fullname,
-            phone,
-            date,
-            rating: ratings.join(","),
-            note
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === "success") {
-            alert("✅ " + data.message);
-            window.location.reload();
-        } else {
-            alert("❌ " + data.message);
-        }
-    })
-    .catch(err => {
-        alert("🚫 Lỗi: " + err);
-    });
-}
-</script>
-
 </body>
 </html>
