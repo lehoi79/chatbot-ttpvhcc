@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="vi">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Trung tâm phục vụ Hành chính công Phường Tây Nha Trang</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --red:#c52222;
@@ -84,185 +84,193 @@ header .logo-wrap{margin-left:20px;flex:0 0 auto;margin-right:12px}
 </style>
 </head>
 <body>
+
 <header class="app-header" role="banner">
-<div aria-hidden="false" class="logo-wrap">
-<div class="logo">
-<img alt="Logo Trung tâm" onerror="this.style.display='none'" src="logo-hcc.png"/>
-</div>
-</div>
-<div aria-level="1" class="header-title" role="heading">
-<div class="line1">TRUNG TÂM PHỤC VỤ HÀNH CHÍNH CÔNG PHƯỜNG TÂY NHA TRANG</div>
-<div class="line2">Hành chính phục vụ</div>
-</div>
-<div aria-hidden="true" class="header-spacer"></div>
+  <div class="logo-wrap" aria-hidden="false">
+    <div class="logo">
+      <img src="logo-hcc.png" alt="Logo Trung tâm" onerror="this.style.display='none'">
+    </div>
+  </div>
+  <div class="header-title" role="heading" aria-level="1">
+    <div class="line1">TRUNG TÂM PHỤC VỤ HÀNH CHÍNH CÔNG PHƯỜNG TÂY NHA TRANG</div>
+    <div class="line2">Hành chính phục vụ</div>
+  </div>
+  <div class="header-spacer" aria-hidden="true"></div>
 </header>
+
 <main class="container" id="app">
-<section aria-labelledby="home-title" class="section active" id="home">
-<h2 id="home-title">Chọn nội dung</h2>
-<p class="small" style="margin-top:6px;color:var(--muted)">Chọn 1 nội dung để vào trang riêng. Chatbot góc dưới phải để hỏi trợ lý ngay.</p>
-<div class="home-cards" role="list" style="margin-top:18px">
-<div class="card" onclick="navigate('hotline')" role="listitem">
-<div class="emoji">📞</div>
-<h3>Đường dây nóng</h3>
-<p>Thông tin liên hệ, hướng dẫn liên hệ khẩn cấp và hỗ trợ thủ tục.</p>
-</div>
-<div class="card" onclick="navigate('survey')" role="listitem">
-<div class="emoji">📝</div>
-<h3>Phiếu đánh giá</h3>
-<p>10 Quầy.</p>
-</div>
-<div class="card" onclick="navigate('procedures')" role="listitem">
-<div class="emoji">📁</div>
-<h3>Hồ sơ mẫu</h3>
-<p>Tra cứu thủ tục &amp; biểu mẫu — lọc theo lĩnh vực và thủ tục.</p>
-</div>
-</div>
-</section>
-<section aria-labelledby="hotline-title" class="section" id="hotline">
-<div class="page-header">
-<button class="back-btn" onclick="navigate('home')">← Trang chủ</button>
-<h2 id="hotline-title">THÔNG TIN ĐƯỜNG DÂY NÓNG TIẾP NHẬN, XỬ LÝ PHẢN ÁNH KIẾN NGHỊ CỦA TỔ CHỨC, CÁ NHÂN VỀ QUY ĐỊNH HÀNH CHÍNH</h2>
-</div>
-<div class="hotline-card">
-<div class="hotline-meta">Nếu gặp vướng mắc, khó khăn, đề nghị cá nhân, tổ chức, doanh nghiệp gửi phản ánh, kiến nghị theo đường dây nóng như sau:</div>
-<div class="hotline-meta"> <strong>1. Trung tâm Phục vụ hành chính công phường Tây Nha Trang</strong></div>
-<div class="hotline-number"><a href="tel:02583892377" target="_blank">0258.3.892.377</a></div>
-<div class="hotline-meta">Địa chỉ: 480 Lương Định Của, Phường Tây Nha Trang, TP. Nha Trang, Khánh Hòa</div>
-<div class="hotline-meta">Giờ làm việc: 7:00–11:30 và 13:30–17:30, Thứ Hai–Thứ Sáu và buổi sáng Thứ Bảy hàng tuần</div>
-<div class="hotline-meta">• Cán bộ tiếp nhận phản ánh kiến nghị: Thảo</div>
-<div class="hotline-meta">• Chủ tịch UBND phường: Ông Nguyễn Đình Anh Minh</div>
-<div class="hotline-meta">• Lãnh đạo Trung tâm Phục vụ hành chính công: Ông Nguyễn Chí Danh, Phó Chủ tịch UBND - Giám đốc Trung tâm</div>
-<div class="hotline-meta">• Ông Nguyễn Duy Thức, Phó Giám đốc Trung tâm Phục vụ hành chính công</div>
-<div class="hotline-meta"><strong>2. Phòng Cải cách hành chính sở Nội vụ, tỉnh Khánh Hòa</strong></div>
-<div class="hotline-meta">• Địa chỉ: 05 Pasreur, phường Nha Trang, tỉnh Khánh Hoà</div>
-<div class="hotline-meta">• Điện thoại: <a href="tel:02583810440" target="_blank">0258.3810.440</a></div>
-<div class="hotline-meta">• Email: <a href="mailto:cchc.snv@khanhshoa.gov.vn" target="_blank">cchc.snv@khanhshoa.gov.vn</a> hoặc <a href="mailto:caicachhanhchinhkh@gmail.com" target="_blank">caicachhanhchinhkh@gmail.com</a></div>
-<div class="hotline-meta"><strong>3. Chuyên mục “Tiếp nhận, trả lời phản ánh kiến nghị”</strong></div>
-<div class="hotline-meta">• <a href="http://cchc.snv@khanhhoa.gov.vn" target="_blank">Cổng Thông tin điện tử cải cách hành chính tỉnh Khánh Hòa</a></div>
-<div class="hotline-meta">• Gửi qua Hệ thống tiếp nhận: <a href="https://doanhnghiep.chinhphu.vn" target="_blank">Doanh nghiệp</a> hoặc <a href="https://nguoidan.chinhphu.vn" target="_blank">Người dân</a></div>
-<div class="hotline-meta">• Gửi đến cơ quan: Văn phòng UBND tỉnh Khánh Hòa, số 46 Trần Phú, phường Nha Trang</div>
-<div class="hotline-meta">• Số điện thoại chuyên dùng: <a href="tel:02583822465" target="_blank">0258.3822.465</a></div>
-<div class="hotline-meta">• Email: <a href="mailto:pkstthc.vpub@khanhhoa.gov.vn" target="_blank">pkstthc.vpub@khanhhoa.gov.vn</a></div>
-</div>
-<div class="card table-card" style="margin-top:12px">
-<div class="small">Tìm nhanh</div>
-<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-<input class="search" id="hotline-q" placeholder="Ví dụ: Số điện thoại UBND tỉnh Khánh Hòa"/>
-<button class="back-btn" onclick="hotlineSearch()">Tìm</button>
-<button class="back-btn" onclick="document.getElementById('hotline-result').innerText=''">Xóa</button>
-</div>
-<div id="hotline-result" style="margin-top:10px;padding:10px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff;min-height:50px;color:#08306b">Kết quả hiển thị tại đây...</div>
-</div>
-</section>
-<section aria-labelledby="survey-title" class="section" id="survey">
-<div class="page-header">
-<button class="back-btn" onclick="navigate('home')">← Trang chủ</button>
-<h2 id="survey-title">Phiếu đánh giá - 10 Quầy</h2>
-</div>
-<div class="card">
-<p class="small">Chọn điểm cho từng Mức độ (1 = Không hài lòng, 2 = Hài lòng, 3 = Rất hài lòng). Dữ liệu lưu local trên trình duyệt.</p>
-<div id="survey-form" style="margin-top:10px"></div>
-<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-<input class="search" id="sv-name" placeholder="Họ tên (bắt buộc)"/>
-<input class="search" id="sv-phone" placeholder="SĐT (bắt buộc)"/>
-<input class="search" id="sv-date" title="Ngày đánh giá" type="date"/>
-<button class="back-btn" id="save-survey">Lưu &amp; Gửi</button>
-<button class="back-btn" id="view-surveys">Xem danh sách</button>
-</div>
-<div id="surveys-list" style="margin-top:12px;display:none"></div>
-</div>
-</section>
-<section aria-labelledby="procedures-title" class="section" id="procedures">
-<div class="page-header">
-<button class="back-btn" onclick="navigate('home')">← Trang chủ</button>
-<h2 id="procedures-title">Hồ sơ mẫu - Tra cứu</h2>
-</div>
-<div class="table-card">
-<div class="table-controls">
-<input class="search" id="filter-field" placeholder="Tìm lĩnh vực (gõ sẽ lọc)" title="Lĩnh vực"/>
-<input class="search" id="filter-key" placeholder="Tìm thủ tục (gõ sẽ lọc)" title="Tên thủ tục"/>
-<label style="white-space:nowrap">Hiển thị:
+  <section id="home" class="section active" aria-labelledby="home-title">
+    <h2 id="home-title">Chọn nội dung</h2>
+    <p class="small" style="margin-top:6px;color:var(--muted)">Chọn 1 nội dung để vào trang riêng. Chatbot góc dưới phải để hỏi trợ lý ngay.</p>
+    <div style="margin-top:18px" class="home-cards" role="list">
+      <div class="card" role="listitem" onclick="navigate('hotline')">
+        <div class="emoji">📞</div>
+        <h3>Đường dây nóng</h3>
+        <p>Thông tin liên hệ, hướng dẫn liên hệ khẩn cấp và hỗ trợ thủ tục.</p>
+      </div>
+      <div class="card" role="listitem" onclick="navigate('survey')">
+        <div class="emoji">📝</div>
+        <h3>Phiếu đánh giá</h3>
+        <p>10 Quầy.</p>
+      </div>
+      <div class="card" role="listitem" onclick="navigate('procedures')">
+        <div class="emoji">📁</div>
+        <h3>Hồ sơ mẫu</h3>
+        <p>Tra cứu thủ tục & biểu mẫu — lọc theo lĩnh vực và thủ tục.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="hotline" class="section" aria-labelledby="hotline-title">
+    <div class="page-header">
+      <button class="back-btn" onclick="navigate('home')">← Trang chủ</button>
+      <h2 id="hotline-title">THÔNG TIN ĐƯỜNG DÂY NÓNG TIẾP NHẬN, XỬ LÝ PHẢN ÁNH KIẾN NGHỊ CỦA TỔ CHỨC, CÁ NHÂN VỀ QUY ĐỊNH HÀNH CHÍNH</h2>
+    </div>
+    <div class="hotline-card">
+      <div class="hotline-meta">Nếu gặp vướng mắc, khó khăn, đề nghị cá nhân, tổ chức, doanh nghiệp gửi phản ánh, kiến nghị theo đường dây nóng như sau:</div>
+      <div class="hotline-meta"> <strong>1. Trung tâm Phục vụ hành chính công phường Tây Nha Trang</strong></div>
+      <div class="hotline-number"><a href="tel:02583892377" target="_blank">0258.3.892.377</a></div>
+      <div class="hotline-meta">Địa chỉ: 480 Lương Định Của, Phường Tây Nha Trang, TP. Nha Trang, Khánh Hòa</div>
+      <div class="hotline-meta">Giờ làm việc: 7:00–11:30 và 13:30–17:30, Thứ Hai–Thứ Sáu và buổi sáng Thứ Bảy hàng tuần</div>
+      <div class="hotline-meta">• Cán bộ tiếp nhận phản ánh kiến nghị: Thảo</div>
+      <div class="hotline-meta">• Chủ tịch UBND phường: Ông Nguyễn Đình Anh Minh</div>
+      <div class="hotline-meta">• Lãnh đạo Trung tâm Phục vụ hành chính công: Ông Nguyễn Chí Danh, Phó Chủ tịch UBND - Giám đốc Trung tâm</div>
+      <div class="hotline-meta">• Ông Nguyễn Duy Thức, Phó Giám đốc Trung tâm Phục vụ hành chính công</div>
+      <div class="hotline-meta"><strong>2. Phòng Cải cách hành chính sở Nội vụ, tỉnh Khánh Hòa</strong></div>
+      <div class="hotline-meta">• Địa chỉ: 05 Pasreur, phường Nha Trang, tỉnh Khánh Hoà</div>
+      <div class="hotline-meta">• Điện thoại: <a href="tel:02583810440" target="_blank">0258.3810.440</a></div>
+      <div class="hotline-meta">• Email: <a href="mailto:cchc.snv@khanhshoa.gov.vn" target="_blank">cchc.snv@khanhshoa.gov.vn</a> hoặc <a href="mailto:caicachhanhchinhkh@gmail.com" target="_blank">caicachhanhchinhkh@gmail.com</a></div>
+      <div class="hotline-meta"><strong>3. Chuyên mục “Tiếp nhận, trả lời phản ánh kiến nghị”</strong></div>
+      <div class="hotline-meta">• <a href="http://cchc.snv@khanhhoa.gov.vn" target="_blank">Cổng Thông tin điện tử cải cách hành chính tỉnh Khánh Hòa</a></div>
+      <div class="hotline-meta">• Gửi qua Hệ thống tiếp nhận: <a href="https://doanhnghiep.chinhphu.vn" target="_blank">Doanh nghiệp</a> hoặc <a href="https://nguoidan.chinhphu.vn" target="_blank">Người dân</a></div>
+      <div class="hotline-meta">• Gửi đến cơ quan: Văn phòng UBND tỉnh Khánh Hòa, số 46 Trần Phú, phường Nha Trang</div>
+      <div class="hotline-meta">• Số điện thoại chuyên dùng: <a href="tel:02583822465" target="_blank">0258.3822.465</a></div>
+      <div class="hotline-meta">• Email: <a href="mailto:pkstthc.vpub@khanhhoa.gov.vn" target="_blank">pkstthc.vpub@khanhhoa.gov.vn</a></div>
+    </div>
+    <div style="margin-top:12px" class="card table-card">
+      <div class="small">Tìm nhanh</div>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <input id="hotline-q" class="search" placeholder="Ví dụ: Số điện thoại UBND tỉnh Khánh Hòa">
+        <button class="back-btn" onclick="hotlineSearch()">Tìm</button>
+        <button class="back-btn" onclick="document.getElementById('hotline-result').innerText=''">Xóa</button>
+      </div>
+      <div id="hotline-result" style="margin-top:10px;padding:10px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff;min-height:50px;color:#08306b">Kết quả hiển thị tại đây...</div>
+    </div>
+  </section>
+
+  <section id="survey" class="section" aria-labelledby="survey-title">
+    <div class="page-header">
+      <button class="back-btn" onclick="navigate('home')">← Trang chủ</button>
+      <h2 id="survey-title">Phiếu đánh giá - 10 Quầy</h2>
+    </div>
+    <div class="card">
+      <p class="small">Chọn điểm cho từng Mức độ (1 = Không hài lòng, 2 = Hài lòng, 3 = Rất hài lòng). Dữ liệu lưu local trên trình duyệt.</p>
+      <div id="survey-form" style="margin-top:10px"></div>
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input id="sv-name" class="search" placeholder="Họ tên (bắt buộc)">
+        <input id="sv-phone" class="search" placeholder="SĐT (bắt buộc)">
+        <input id="sv-date" class="search" type="date" title="Ngày đánh giá">
+        <button class="back-btn" id="save-survey">Lưu & Gửi</button>
+        <button class="back-btn" id="view-surveys">Xem danh sách</button>
+      </div>
+      <div id="surveys-list" style="margin-top:12px;display:none"></div>
+    </div>
+  </section>
+
+  <section id="procedures" class="section" aria-labelledby="procedures-title">
+    <div class="page-header">
+      <button class="back-btn" onclick="navigate('home')">← Trang chủ</button>
+      <h2 id="procedures-title">Hồ sơ mẫu - Tra cứu</h2>
+    </div>
+    <div class="table-card">
+      <div class="table-controls">
+        <input id="filter-field" class="search" placeholder="Tìm lĩnh vực (gõ sẽ lọc)" title="Lĩnh vực">
+        <input id="filter-key" class="search" placeholder="Tìm thủ tục (gõ sẽ lọc)" title="Tên thủ tục">
+        <label style="white-space:nowrap">Hiển thị:
           <select id="rowsPerPage">
-<option value="5">5</option>
-<option value="10">10</option>
-<option value="15">15</option>
-</select> / trang
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select> / trang
         </label>
-</div>
-<div class="table-responsive">
-<table aria-describedby="procedures-title" class="table" id="procedures-table">
-<thead>
-<tr><th>STT</th><th>Tên thủ tục</th><th>Lĩnh vực</th><th>Nộp hồ sơ Trực tuyến</th><th>Hồ sơ mẫu</th></tr>
-</thead>
-<tbody id="procedures-tbody"></tbody>
-</table>
-</div>
-<div class="pager" style="margin-top:10px">
-<div class="small" id="pager-info"></div>
-<div style="flex:1"></div>
-<button class="pager-prev" onclick="prevPage()">⟨</button>
-<div id="pager-pages" style="display:flex;gap:6px;align-items:center"></div>
-<button class="pager-next" onclick="nextPage()">⟩</button>
-</div>
-</div>
-</section>
+      </div>
+      <div class="table-responsive">
+        <table class="table" id="procedures-table" aria-describedby="procedures-title">
+          <thead>
+            <tr><th>STT</th><th>Tên thủ tục</th><th>Lĩnh vực</th><th>Nộp hồ sơ Trực tuyến</th><th>Hồ sơ mẫu</th></tr>
+          </thead>
+          <tbody id="procedures-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pager" style="margin-top:10px">
+        <div class="small" id="pager-info"></div>
+        <div style="flex:1"></div>
+        <button class="pager-prev" onclick="prevPage()">⟨</button>
+        <div id="pager-pages" style="display:flex;gap:6px;align-items:center"></div>
+        <button class="pager-next" onclick="nextPage()">⟩</button>
+      </div>
+    </div>
+  </section>
 </main>
-<div aria-hidden="false" class="chat-toggle">
-<button id="chatToggle" title="Mở trợ lý ảo">💬</button>
-</div>
-<div aria-hidden="true" aria-label="Trợ lý ảo" class="chat-panel hidden" id="chatPanel" role="dialog">
-<div class="chat-header">
-<div id="chatRobot" style="cursor:pointer">🤖</div>
-<div style="flex:1">
-<div style="font-weight:700;color:var(--accent)">Trợ lý ảo Trung tâm PVHCC phường</div>
-<div class="small">Hỏi về thủ tục, biểu mẫu, giờ làm việc</div>
-</div>
-<div style="display:flex;gap:8px">
-<button class="back-btn" id="clearChat">Xóa lịch sử</button>
-<button class="back-btn" id="closeChat">Đóng</button>
-</div>
-</div>
-<div class="chat-body" id="chatBody"></div>
-<div class="chat-footer">
-<input id="chatInput" placeholder='Ví dụ: "Làm căn cước công dân ở đâu?"'/>
-<button class="back-btn" id="chatSend">Gửi</button>
-</div>
-</div>
-<div aria-label="Quản lý Q&amp;A" class="modal" id="qaModal" role="dialog">
-<div style="display:flex;justify-content:space-between;align-items:center">
-<strong>Thêm/Quản lý Q&amp;A (lưu cục bộ)</strong>
-<button class="back-btn" id="closeQa">Đóng</button>
-</div>
-<div style="margin-top:10px;display:flex;gap:8px">
-<input class="search" id="qaQ" placeholder="Câu hỏi (từ khóa)"/>
-<input class="search" id="qaA" placeholder="Trả lời (tiếng Việt)"/>
-<button class="back-btn" id="addQaBtn">Thêm</button>
-</div>
-<div class="list" id="qaList"></div>
-<div style="margin-top:12px;padding:8px;border:1px solid #eef4fb;border-radius:8px;background:#fbfdff">
-<strong>Cấu hình GPT API (tùy chọn)</strong>
-<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-<input class="search" id="gptApiKey" placeholder="API Key" style="flex:1"/>
-<select class="search" id="gptModel">
-<option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-<option value="gpt-4">gpt-4</option>
-<option value="gpt-4o">gpt-4o</option>
-</select>
-<button class="back-btn" id="saveGptConfig">Lưu</button>
-</div>
-</div>
-<div style="margin-top:10px;padding:8px;border:1px solid #eef4fb;border-radius:8px;background:#fbfdff">
-<strong>Kết nối Google Sheets</strong>
-<div class="small" style="margin-top:6px">Dán URL Web App của Google Apps Script để ghi phiếu khảo sát trực tiếp vào Google Sheets.</div>
-<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-<input class="search" id="appsScriptUrlInput" placeholder="https://script.google.com/macros/s/XXXXX/exec" style="flex:1"/>
-<button class="back-btn" id="saveAppsScriptUrl">Lưu</button>
-</div>
-<div class="small" style="margin-top:6px;color:#6b7280">Gợi ý triển khai: Apps Script nhận POST (no-cors) với JSON và lưu vào Sheet. Không cần bật xác thực.</div>
-</div>
-<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end"><button class="back-btn" id="exportQa">Xuất Q&amp;A</button></div>
+
+<div class="chat-toggle" aria-hidden="false">
+  <button id="chatToggle" title="Mở trợ lý ảo">💬</button>
 </div>
 
+<div id="chatPanel" class="chat-panel hidden" aria-hidden="true" role="dialog" aria-label="Trợ lý ảo">
+  <div class="chat-header">
+    <div id="chatRobot" style="cursor:pointer">🤖</div>
+    <div style="flex:1">
+      <div style="font-weight:700;color:var(--accent)">Trợ lý ảo Trung tâm PVHCC phường</div>
+      <div class="small">Hỏi về thủ tục, biểu mẫu, giờ làm việc</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="back-btn" id="clearChat">Xóa lịch sử</button>
+      <button class="back-btn" id="closeChat">Đóng</button>
+    </div>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-footer">
+    <input id="chatInput" placeholder='Ví dụ: "Làm căn cước công dân ở đâu?"'>
+    <button id="chatSend" class="back-btn">Gửi</button>
+  </div>
+</div>
+
+<div id="qaModal" class="modal" role="dialog" aria-label="Quản lý Q&A">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <strong>Thêm/Quản lý Q&A (lưu cục bộ)</strong>
+    <button class="back-btn" id="closeQa">Đóng</button>
+  </div>
+  <div style="margin-top:10px;display:flex;gap:8px">
+    <input id="qaQ" class="search" placeholder="Câu hỏi (từ khóa)">
+    <input id="qaA" class="search" placeholder="Trả lời (tiếng Việt)">
+    <button class="back-btn" id="addQaBtn">Thêm</button>
+  </div>
+  <div class="list" id="qaList"></div>
+  <div style="margin-top:12px;padding:8px;border:1px solid #eef4fb;border-radius:8px;background:#fbfdff">
+    <strong>Cấu hình GPT API (tùy chọn)</strong>
+    <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <input id="gptApiKey" class="search" placeholder="API Key" style="flex:1">
+      <select id="gptModel" class="search">
+        <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+        <option value="gpt-4">gpt-4</option>
+        <option value="gpt-4o">gpt-4o</option>
+      </select>
+      <button class="back-btn" id="saveGptConfig">Lưu</button>
+    </div>
+  </div>
+  <div style="margin-top:10px;padding:8px;border:1px solid #eef4fb;border-radius:8px;background:#fbfdff">
+    <strong>Kết nối Google Sheets</strong>
+    <div class="small" style="margin-top:6px">Dán URL Web App của Google Apps Script để ghi phiếu khảo sát trực tiếp vào Google Sheets.</div>
+    <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <input id="appsScriptUrlInput" class="search" placeholder="https://script.google.com/macros/s/XXXXX/exec" style="flex:1">
+      <button class="back-btn" id="saveAppsScriptUrl">Lưu</button>
+    </div>
+    <div class="small" style="margin-top:6px;color:#6b7280">Gợi ý triển khai: Apps Script nhận POST (no-cors) với JSON và lưu vào Sheet. Không cần bật xác thực.</div>
+  </div>
+
+  <div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end"><button class="back-btn" id="exportQa">Xuất Q&A</button></div>
+</div>
 
 <script>
 /* Procedures data and pagination */
@@ -649,21 +657,13 @@ let rowsPerPage = 5;
 
 /* SPA navigation */
 const sections = ['home','hotline','survey','procedures'];
-
-let firstNavDone=false;
 function navigate(key){
-  const sections=['home','hotline','survey','procedures'];
   if(!sections.includes(key)) key='home';
   sections.forEach(s=>{
-    const el=document.getElementById(s);
-    if(s===key){el.classList.add('active');el.classList.add('fade');}
-    else {el.classList.remove('active');el.classList.remove('fade');}
+    const el = document.getElementById(s);
+    if(s===key){ el.classList.add('active'); el.classList.add('fade'); }
+    else { el.classList.remove('active'); el.classList.remove('fade'); }
   });
-  const state={page:key};
-  if(!firstNavDone){history.replaceState(state,'','#'+key);firstNavDone=true;}
-  else{history.pushState(state,'','#'+key);}
-  window.scrollTo({top:0,behavior:'smooth'});
-});
   history.pushState({page:key}, '', '#'+key);
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -733,7 +733,7 @@ if(!document.getElementById('sv-date').value) document.getElementById('sv-date')
       rating: (s.scores||[]).map(v => (v==null ? "" : v)).join(","),
       note: s.comment || ""
     };
-    fetch(getAppsScriptUrl(), {
+    fetch("https://script.google.com/macros/s/AKfycbzgvhrIBRPg9B4Xgs7OLkJ9GG9VVzKKvoghiai_eB75gnLEhX14juQBxoqYWRMXlwUf/exec", {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -895,8 +895,7 @@ function renderChat(){
   hist.forEach(m=>{
     const d = document.createElement('div');
     d.className = 'msg ' + (m.role==='user'?'user':'bot');
-    d.innerHTML = `<div class="bubble ${m.role==='user'?'user':''}">${escapeHtml(m.text).replace(/
-/g,'<br>')}<div class="time">${new Date(m.ts).toLocaleString()}</div></div>`;
+    d.innerHTML = `<div class="bubble ${m.role==='user'?'user':''}">${escapeHtml(m.text)}<div class="time">${new Date(m.ts).toLocaleString()}</div></div>`;
     body.appendChild(d);
   });
   body.scrollTop = body.scrollHeight;
@@ -986,11 +985,8 @@ function getAppsScriptUrl(){
       return 'Lỗi gọi API GPT: ' + err.message;
     }
   }
-
-
-// --- SCRIPT BLOCK SEPARATOR ---
-
-
+</script>
+<script>
 (function() {
   const form = document.getElementById("ratingForm");
   if (!form) return;
@@ -1040,30 +1036,6 @@ function getAppsScriptUrl(){
     });
   }, { once: true });
 })();
-
-
-
-async function answerQuerySmart(q) {
-  const ans = await answerQuerySmart(q);
-  if (ans && ans.trim() !== '' && !/^Xin lỗi/i.test(ans)) {
-    return ans; // found in Q&A
-  }
-  // else call GPT API using stored key in localStorage as per original code
-  const apiKey = (localStorage.getItem(getAppsScriptUrl()) || '').trim();
-  const model = localStorage.getItem('gptModel') || 'gpt-3.5-turbo';
-  if(!apiKey){ return 'Chưa cấu hình API Key để gọi GPT.'; }
-  try {
-    const r = await fetch('https://api.openai.com/v1/chat/completions',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-      body:JSON.stringify({model,messages:[{role:'user',content:q}]})
-    });
-    const data=await r.json();
-    return (data.choices && data.choices[0]?.message?.content)||'Không nhận được nội dung từ GPT.';
-  } catch(err){
-    return 'Lỗi gọi GPT: '+err.message;
-  }
-}
-
-</script></body>
+</script>
+</body>
 </html>
